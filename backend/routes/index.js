@@ -16,10 +16,12 @@ const alumniDetails = require('../controller/Alumni/alumniDetails');
 const alumniDelete = require('../controller/Alumni/alumniDelete');
 
 
-//Student
+//User
 const StudentFetch = require('../controller/User/StudentFetch');
 const UserSignUp=require('../controller/User/UserSignUp');
 const UserSignIn=require('../controller/User/UserLogin');
+const UserProfile=require('../controller/User/FetchUserProfile');
+
 
 //Student Admission
 const UserAdmissionSignUp = require('../controller/User/UserAdmissionSignUp');
@@ -34,10 +36,11 @@ router.get('/alumniView', alumniView);
 router.put('/alumniDetails', alumniDetails);
 router.delete('/alumniDelete', alumniDelete);
 
-//Student
+//User
 router.get('/studentFetch', StudentFetch);//check auth check later *********
 router.post('/userSignUp', UserSignUp);//check auth check later *********
 router.post('/userSignIn', UserSignIn);
+router.get('/userProfile',authCheck,UserProfile);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
