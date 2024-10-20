@@ -1,5 +1,4 @@
 const UserAdmissionModel = require('../../model/User/UserAdmissionModel');
-const createUserPDF = require('../../helper/PdfJenerator');
 
 const userAdmissionSignUp = async (req, res) => {
     try {
@@ -8,12 +7,25 @@ const userAdmissionSignUp = async (req, res) => {
         if (user) {
             return res.status(400).json({ success: false, message: 'User already exists' });
         }
-        const userAdmission = await UserAdmissionModel.create(req.body);
-        const pdfPath = await createUserPDF(userAdmission);
+        const { rAddressSameAsPermanent, ...userAdmissionData } = req.body;
 
-        res.download(pdfPath, `${user.name}_details.pdf`);
-        
+        if (rAddressSameAsPermanent == 'Yes') {
+            userAdmissionData.rAddress = userAdmissionData.address;
+            userAdmissionData.rCity = userAdmissionData.city;
+            userAdmissionData.rDistrict = userAdmissionData.district;
+            userAdmissionData.rMunicipality =userAdmissionData.municipality;
+            userAdmissionData.rPanchayt = userAdmissionData.panchayt;
+            userAdmissionData.rPostOffice = userAdmissionData.postOffice;
+            userAdmissionData.rPoliceStation = userAdmissionData.policeStation;
+            userAdmissionData.rPinCode = userAdmissionData.pinCode;
+            userAdmissionData.rState = userAdmissionData.state;
+            userAdmissionData.rCountry = userAdmissionData.country;
+        }
+        const userAdmission = await UserAdmissionModel.create(userAdmissionData);
+        // const userAdmission = await UserAdmissionModel.create(req.body);
+        res.status(200).json({ success: true, userAdmission });
     } catch (err) {
+        console.log(err);
         res.status(400).json({ success: false, error: err.message });
     }
 }
