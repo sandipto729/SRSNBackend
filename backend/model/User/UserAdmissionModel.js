@@ -1,0 +1,203 @@
+const Mongoose=require('mongoose');
+
+const tempUserSchema=new Mongoose.Schema({
+    //Basic Info
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    profilePic:{
+        type:String,
+        required:true
+    },
+    phone:{
+        type:String,
+        required:true
+    },
+    dob:{
+        type:String,
+        required:true
+    },
+    dobRegNo:{
+        type:String,
+        required:true
+    },
+    socialCatagory:{
+        type:String,
+        required:true
+    },
+    socialCatagoryRegNo:{
+        type:String,
+        required:true
+    },
+    religion:{
+        type:String,
+        required:true
+    },
+    motherTongue:{
+        type:String,
+        required:true
+    },
+    nationality:{
+        type:String,
+        required:true
+    },
+    aadharNo:{
+        type:String,
+        required:true
+    },
+    bloodGroup:{
+        type:String,
+        required:true
+    },
+    healthID:{
+        type:String
+    },
+    grade:{
+        type:String,
+        required:true
+    },
+
+
+    //Previous School Year Details
+    studentCode:{
+        type:String,
+        required:true
+    },
+
+
+    // Parmanent Contact Details
+    address:{
+        type:String,
+        required:true
+    },
+    city:{
+        type:String,
+        required:true
+    },
+    district:{
+        type:String,
+        required:true
+    },
+    municipality:{
+        type:String,
+        required:true
+    },
+    panchayt:{
+        type:String,
+        required:true
+    },
+    postOffice:{
+        type:String,
+        required:true
+    },
+    policeStation:{
+        type:String,
+        required:true
+    },
+    pinCode:{
+        type:String,
+        required:true
+    },
+    state:{
+        type:String,
+        required:true
+    },
+    country:{
+        type:String,
+        required:true
+    },
+    
+    //Residensial Contact Details
+    rAddress:{
+        type:String,
+        required:true
+    },
+    rCity:{
+        type:String,
+        required:true
+    },
+    rDistrict:{
+        type:String,
+        required:true
+    },
+    rMunicipality:{
+        type:String,
+        required:true
+    },
+    rPanchayt:{
+        type:String,
+        required:true
+    },
+    rPostOffice:{
+        type:String,
+        required:true
+    },
+    rPoliceStation:{
+        type:String,
+        required:true
+    },
+    rPinCode:{
+        type:String,
+        required:true
+    },
+    rState:{
+        type:String,
+        required:true
+    },
+    rCountry:{
+        type:String,
+        required:true
+    },
+
+    //Guardian Details
+
+    fatherName:{
+        type:String,
+        required:true
+    },
+    motherName:{
+        type:String,
+        required:true
+    },
+    guardianName:{
+        type:String,
+        required:true
+    },
+    guardianRelation:{
+        type:String,
+        required:true
+    },
+    guardianPhone:{
+        type:String,
+        required:true
+    },
+    guardianEmail:{
+        type:String,
+        required:true
+    },
+    annualIncome:{
+        type:String,
+        required:true
+    },
+    guardianQualification:{
+        type:String,
+        required:true
+    },
+
+    //Payment Details
+    paymentId:{
+        type:String,
+        required:true,
+        unique:true
+    }
+},{
+    timestamps:true
+})
+
+module.exports=Mongoose.model('UserAdmission',tempUserSchema)

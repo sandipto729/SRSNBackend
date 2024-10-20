@@ -6,6 +6,9 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 8000;
 const userRoutes = require('./routes');
 const path = require('path');
+const cookieParser =require('cookie-parser');
+
+app.use(cookieParser());
 
 // Load environment variables
 require('dotenv').config();
@@ -14,7 +17,12 @@ require('dotenv').config();
 connectDB();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: process.env.FRONTEND_URL, 
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
