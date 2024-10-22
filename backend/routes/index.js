@@ -21,6 +21,8 @@ const StudentFetch = require('../controller/User/StudentFetch');
 const UserSignUp=require('../controller/User/UserSignUp');
 const UserSignIn=require('../controller/User/UserLogin');
 const UserProfile=require('../controller/User/FetchUserProfile');
+const UserEdit=require('../controller/User/UserEdit');
+const TeacherFetch=require('../controller/User/Teacherfetch');
 
 
 //Student Admission
@@ -41,6 +43,8 @@ router.get('/studentFetch', StudentFetch);//check auth check later *********
 router.post('/userSignUp', UserSignUp);//check auth check later *********
 router.post('/userSignIn', UserSignIn);
 router.get('/userProfile',authCheck,UserProfile);
+router.put('/userEdit',authCheck,UserEdit);
+router.get('/teacherFetch',TeacherFetch);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);

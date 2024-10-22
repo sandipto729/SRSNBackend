@@ -19,6 +19,12 @@ const UserSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
+    DateOfJoining:{
+        type: String
+    },
+    Qualification:{
+        type: String
+    },
     role:{
         type: String,
         required: true
@@ -59,7 +65,6 @@ const UserSchema = new Mongoose.Schema({
     grade: {
         type: String
     },
-
     // Previous School Year Details
     studentCode: {
         type: String
