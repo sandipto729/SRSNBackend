@@ -14,6 +14,7 @@ const alumniVeri = require('../controller/Alumni/alumniVeri');
 const alumniView = require('../controller/Alumni/AlumniView');
 const alumniDetails = require('../controller/Alumni/alumniDetails');
 const alumniDelete = require('../controller/Alumni/alumniDelete');
+const alumniSearch=require('../controller/Alumni/AlumniSearch');
 
 
 //User
@@ -37,6 +38,7 @@ router.post('/alumniVeri', alumniVeri);
 router.get('/alumniView', alumniView);
 router.put('/alumniDetails', alumniDetails);
 router.delete('/alumniDelete', alumniDelete);
+router.post('/alumniSearch',alumniSearch);
 
 //User
 router.get('/studentFetch', StudentFetch);//check auth check later *********

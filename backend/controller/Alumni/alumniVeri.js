@@ -5,8 +5,7 @@ const sendEmail = require('./../../helper/Mail');
 const alumniVeri = async (req, res) => {
     const responseFromAdmin = req.body.check === "true";
     const alumniId = req.body.ID;
-    // console.log(responseFromAdmin, alumniId);
-
+    
     try {
         const AlumniResult = await alumniTempModel.findById(alumniId);
         // console.log(AlumniResult);

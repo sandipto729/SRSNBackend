@@ -24,7 +24,7 @@ async function authToken(req, res, next) {
       }
 
       req.user = decoded.data; 
-      console.log('Decoded User:', req.user);
+      // console.log('Decoded User:', req.user);
       next();
     });
   } catch (err) {
