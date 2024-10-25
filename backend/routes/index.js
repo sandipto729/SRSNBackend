@@ -24,9 +24,8 @@ const UserSignIn=require('../controller/User/UserLogin');
 const UserProfile=require('../controller/User/FetchUserProfile');
 const UserEdit=require('../controller/User/UserEdit');
 const TeacherFetch=require('../controller/User/Teacherfetch');
-const UserYearChange=require('./../controller/User/UserChangeClass');
-
 const logoutUser = require('../controller/User/UserLogout');
+const userMarksSubmission=require('../controller/User/StudentMarksSubmission');
 
 
 //Student Admission
@@ -37,7 +36,7 @@ const userChangeClass = require('./../controller/User/UserChangeClass');
 
 
 //Alumni Routes((add authcheck later********************))
-router.post('/alumniTemp', alumniTemp);
+router.post('/alumniTempSave', alumniTemp);
 router.post('/alumniVeri', alumniVeri);
 router.get('/alumniView', alumniView);
 router.put('/alumniDetails', alumniDetails);
@@ -53,6 +52,9 @@ router.put('/userEdit',authCheck,UserEdit);
 router.get('/teacherFetch',TeacherFetch);
 router.post('/userLogout',authCheck,logoutUser);
 router.put('/chnageYearClass',userChangeClass);//check auth check later *********
+
+//Marks Submission
+router.post('/userMarksSubmission',userMarksSubmission);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
