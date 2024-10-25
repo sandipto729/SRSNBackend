@@ -24,12 +24,14 @@ const UserSignIn=require('../controller/User/UserLogin');
 const UserProfile=require('../controller/User/FetchUserProfile');
 const UserEdit=require('../controller/User/UserEdit');
 const TeacherFetch=require('../controller/User/Teacherfetch');
+const UserYearChange=require('./../controller/User/UserChangeClass');
 
 const logoutUser = require('../controller/User/UserLogout');
 
 
 //Student Admission
 const UserAdmissionSignUp = require('../controller/User/UserAdmissionSignUp');
+const userChangeClass = require('./../controller/User/UserChangeClass');
 
 
 
@@ -50,6 +52,7 @@ router.get('/userProfile',authCheck,UserProfile);
 router.put('/userEdit',authCheck,UserEdit);
 router.get('/teacherFetch',TeacherFetch);
 router.post('/userLogout',authCheck,logoutUser);
+router.put('/chnageYearClass',userChangeClass);//check auth check later *********
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
