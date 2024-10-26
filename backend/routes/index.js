@@ -32,6 +32,10 @@ const userMarksSubmission=require('../controller/User/StudentMarksSubmission');
 const UserAdmissionSignUp = require('../controller/User/UserAdmissionSignUp');
 const userChangeClass = require('./../controller/User/UserChangeClass');
 
+//News
+const NoticeEntery = require('../controller/Notice/NoticeEntery');
+const NoticeFetch = require('../controller/Notice/Noticefetch');
+
 
 
 
@@ -58,6 +62,10 @@ router.post('/userMarksSubmission',userMarksSubmission);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
+
+//Notice(add auth later)
+router.post('/noticeEntery',NoticeEntery);
+router.get('/noticeFetch',NoticeFetch);
 
 
 module.exports = router;
