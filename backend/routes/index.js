@@ -27,14 +27,18 @@ const TeacherFetch=require('../controller/User/Teacherfetch');
 const logoutUser = require('../controller/User/UserLogout');
 const userMarksSubmission=require('../controller/User/StudentMarksSubmission');
 const deleteUser = require('../controller/User/UserDelete');
+const userChangeClass = require('./../controller/User/UserChangeClass');
 
 //Student Admission
-const UserAdmissionSignUp = require('../controller/User/UserAdmissionSignUp');
-const userChangeClass = require('./../controller/User/UserChangeClass');
+const UserAdmissionSignUp = require('../controller/UserAdmission/UserAdmissionSignUp');
+const UserAdmissionFetch = require('../controller/UserAdmission/UserAdmissionfetch');
+const UserApplicationAdd = require('../controller/UserAdmission/UserApplicationAdd');
+const UserApplicationDelete = require('../controller/UserAdmission/UserAppicationDelete');
 
 //News
 const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
+const NoticeDelete=require('../controller/Notice/NoticeDelete');
 
 
 
@@ -64,10 +68,15 @@ router.post('/userMarksSubmission',userMarksSubmission);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
+router.get('/userAdmissionFetch', UserAdmissionFetch);
+router.post('/userAdmissionAdd', UserApplicationAdd);
+router.delete('/userAdmissionDelete', UserApplicationDelete);
+
 
 //Notice(add auth later)
 router.post('/noticeEntery',NoticeEntery);
 router.get('/noticeFetch',NoticeFetch);
+router.delete('/noticeDelete',NoticeDelete);
 
 
 module.exports = router;
