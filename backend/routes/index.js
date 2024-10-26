@@ -12,9 +12,9 @@ const checkTeacher=require('../middlewares/CheckTeacher');
 const alumniTemp = require('../controller/Alumni/alumniTemp');
 const alumniVeri = require('../controller/Alumni/alumniVeri');
 const alumniView = require('../controller/Alumni/AlumniView');
-const alumniDetails = require('../controller/Alumni/alumniDetails');
 const alumniDelete = require('../controller/Alumni/alumniDelete');
 const alumniSearch=require('../controller/Alumni/AlumniSearch');
+const alumniApplicationView=require('../controller/Alumni/AlumniApplicationView');
 
 
 //User
@@ -37,11 +37,11 @@ const userChangeClass = require('./../controller/User/UserChangeClass');
 
 //Alumni Routes((add authcheck later********************))
 router.post('/alumniTempSave', alumniTemp);
-router.post('/alumniVeri', alumniVeri);
+router.post('/alumniVeri', alumniVeri);//anumni accept
 router.get('/alumniView', alumniView);
-router.put('/alumniDetails', alumniDetails);
-router.delete('/alumniDelete', alumniDelete);
+router.delete('/alumniDelete', alumniDelete);//alumni deny
 router.post('/alumniSearch',alumniSearch);
+router.get('/alumniApplicationView',alumniApplicationView);//alumni aplication view
 
 //User
 router.get('/studentFetch', StudentFetch);//check auth check later *********

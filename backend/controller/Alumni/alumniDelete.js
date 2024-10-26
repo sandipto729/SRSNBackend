@@ -1,9 +1,9 @@
-const alumniVeriModel = require('../../model/Alumni/alumniVeriModel');
+const alumniTempModel = require('../../model/Alumni/alumniTempModel');
 
 const alumniDelete = async (req, res) => {
     const alumniId = req.body.ID;
     try {
-        const alumni = await alumniVeriModel.findByIdAndDelete(alumniId);
+        const alumni = await alumniTempModel.findByIdAndDelete(alumniId);
         if (!alumni) {
             return res.status(404).json({ success: false, message: 'Alumni not found' });
         }
