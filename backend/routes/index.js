@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //Middlewares AuthToken
-const authCheck = require('./../middlewares/AuthToken');
+const authCheck = require('./../middlewares/authToken');
 
 //Check Role Middleware
 const checkAdmin=require('../middlewares/CheckAdmin');
