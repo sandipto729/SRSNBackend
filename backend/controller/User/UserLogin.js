@@ -29,7 +29,7 @@ const userLogin = async (req, res) => {
         const tokenOptions = {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production', 
-            sameSite: 'strict' 
+            sameSite: 'none', 
         };
 
         res.cookie('token', token, tokenOptions).json({
