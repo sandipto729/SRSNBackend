@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose');
+const {BeezSyllabus,AnkurSyllabus,KisholoySyllabus,C1Syllabus,C2Syllabus,C3Syllabus,C4Syllabus}=require('./../../helper/Class');
 
 const UserSchema = new Mongoose.Schema({
     // Basic Info
@@ -54,7 +55,8 @@ const UserSchema = new Mongoose.Schema({
         type: String
     },
     aadharNo: {
-        type: String
+        type: String,
+        required: true
     },
     bloodGroup: {
         type: String
@@ -64,6 +66,10 @@ const UserSchema = new Mongoose.Schema({
     },
     grade: {
         type: String
+    },
+    subjects: { 
+        type: Mongoose.Schema.Types.Mixed, 
+        default: {}
     },
     // Previous School Year Details
     studentCode: {
@@ -162,5 +168,33 @@ const UserSchema = new Mongoose.Schema({
 },{
     timestamps: true
 });
+
+
+
+UserSchema.pre('save', async function (next) {
+    if (this.isModified('grade')) {
+      if (this.grade === 'beez') {
+          this.subjects = BeezSyllabus;
+      }
+      else if (this.grade === 'ankur') {
+        this.subjects = AnkurSyllabus; 
+      }
+      else if (this.grade === 'kisholoy') {
+        this.subjects = KisholoySyllabus; 
+      }
+      else if (this.grade === '1') {
+        this.subjects = C1Syllabus; 
+      } else if (this.grade === '2') {
+        this.subjects = C2Syllabus; 
+      }
+      else if (this.grade === '3') {
+        this.subjects = C3Syllabus; 
+      }
+      else if (this.grade === '4') {
+        this.subjects = C4Syllabus; 
+      }
+    }
+    next();
+  });
 
 module.exports = Mongoose.model('User', UserSchema);

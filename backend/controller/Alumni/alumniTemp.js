@@ -22,6 +22,7 @@ const alumniTemp = async (req, res) => {
         sendEmail(email, 'Alumni Application', 'Thank you for applying for an alumni position. We will get back to you soon.');
         res.status(200).json({ success: true, result });
     } catch (error) {
+        console.log(error)
         res.status(400).json({ success: false, error: error.message });
     }
 }
