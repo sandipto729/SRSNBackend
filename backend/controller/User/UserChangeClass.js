@@ -107,6 +107,7 @@ const userChangeClass = async (req, res) => {
         res.status(200).json({
             message: "Students updated successfully",
             updatedCount: result.modifiedCount,
+            success:true
         });
 
     } catch (err) {
