@@ -67,9 +67,21 @@ const UserSchema = new Mongoose.Schema({
     grade: {
         type: String
     },
-    subjects: { 
+    firstSem: { 
         type: Mongoose.Schema.Types.Mixed, 
         default: {}
+    },
+    secondSem: { 
+        type: Mongoose.Schema.Types.Mixed, 
+        default: {}
+    },
+    endSem: { 
+        type: Mongoose.Schema.Types.Mixed, 
+        default: {}
+    },
+    result:{
+        type:Number,
+        default:1000
     },
     // Previous School Year Details
     studentCode: {
@@ -174,24 +186,38 @@ const UserSchema = new Mongoose.Schema({
 UserSchema.pre('save', async function (next) {
     if (this.isModified('grade')) {
       if (this.grade === 'beez') {
-          this.subjects = BeezSyllabus;
+          this.firstSem = BeezSyllabus;
+          this.secondSem = BeezSyllabus;
+          this.endSem = BeezSyllabus;
       }
       else if (this.grade === 'ankur') {
-        this.subjects = AnkurSyllabus; 
+        this.firstSem = AnkurSyllabus; 
+        this.secondSem = AnkurSyllabus;
+        this.endSem = AnkurSyllabus;
       }
       else if (this.grade === 'kisholoy') {
-        this.subjects = KisholoySyllabus; 
+        this.firstSem = KisholoySyllabus;
+        this.secondSem = KisholoySyllabus;
+        this.endSem = KisholoySyllabus;
       }
       else if (this.grade === '1') {
-        this.subjects = C1Syllabus; 
+        this.firstSem = C1Syllabus; 
+        this.secondSem = C1Syllabus;
+        this.endSem = C1Syllabus;
       } else if (this.grade === '2') {
-        this.subjects = C2Syllabus; 
+        this.firstSem = C2Syllabus; 
+        this.secondSem = C2Syllabus;
+        this.endSem = C2Syllabus;
       }
       else if (this.grade === '3') {
-        this.subjects = C3Syllabus; 
+        this.firstSem = C3Syllabus; 
+        this.secondSem = C3Syllabus;
+        this.endSem = C3Syllabus;
       }
       else if (this.grade === '4') {
-        this.subjects = C4Syllabus; 
+        this.firstSem = C4Syllabus; 
+        this.secondSem = C4Syllabus;
+        this.endSem = C4Syllabus;
       }
     }
     next();
