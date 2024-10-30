@@ -28,6 +28,7 @@ const logoutUser = require('../controller/User/UserLogout');
 const userMarksSubmission=require('../controller/User/StudentMarksSubmission');
 const deleteUser = require('../controller/User/UserDelete');
 const userChangeClass = require('./../controller/User/UserChangeClass');
+const UserResult=require('./../controller/User/CalculateResult');
 
 //Student Admission
 const UserAdmissionSignUp = require('../controller/UserAdmission/UserAdmissionSignUp');
@@ -40,6 +41,8 @@ const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
 const NoticeDelete=require('../controller/Notice/NoticeDelete');
 
+//Message
+const Message=require('./../controller/Message/Message');
 
 
 
@@ -63,8 +66,14 @@ router.post('/userLogout',authCheck,logoutUser);
 router.put('/chnageYearClass',userChangeClass);//check auth check later *********
 router.delete('/deleteUser/:userId', deleteUser);
 
+//Message
+router.post('/message',Message);
+
 //Marks Submission
 router.post('/userMarksSubmission',userMarksSubmission);
+
+//get result
+router.get('/getResult',UserResult);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);

@@ -9,7 +9,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: '5',
-                    subjects: BeezSyllabus
+                    firstSem: BeezSyllabus,
+                    secondSem: BeezSyllabus,
+                    endSem:BeezSyllabus
                 }
             }
         }));
@@ -20,7 +22,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: '4',
-                    subjects: C4Syllabus
+                    firstSem:C4Syllabus,
+                    secondSem:C4Syllabus,
+                    endSem:C4Syllabus
                 }
             }
         }));
@@ -31,7 +35,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: '3',
-                    subjects: C3Syllabus
+                    firstSem:C3Syllabus,
+                    secondSem:C3Syllabus,
+                    endSem:C3Syllabus
                 }
             }
         }));
@@ -42,7 +48,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: '2',
-                    subjects: C2Syllabus
+                    firstSem:C2Syllabus,
+                    secondSem:C2Syllabus,
+                    endSem:C2Syllabus
                 }
             }
         }));
@@ -53,7 +61,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: '1',
-                    subjects: C1Syllabus
+                    firstSem:C1Syllabus,
+                    secondSem:C1Syllabus,
+                    endSem:C1Syllabus
                 }
             }
         }));
@@ -64,7 +74,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: 'kisholoy',
-                    subjects: KisholoySyllabus
+                    firstSem:KisholoySyllabus,
+                    secondSem:KisholoySyllabus,
+                    endSem:KisholoySyllabus
                 }
             }
         }));
@@ -75,7 +87,9 @@ const userChangeClass = async (req, res) => {
                 filter: { _id: student._id },
                 update: {
                     grade: 'ankur',
-                    subjects: AnkurSyllabus
+                    firstSem:AnkurSyllabus,
+                    secondSem:AnkurSyllabus,
+                    endSem:AnkurSyllabus
                 }
             }
         }));
@@ -93,6 +107,7 @@ const userChangeClass = async (req, res) => {
         res.status(200).json({
             message: "Students updated successfully",
             updatedCount: result.modifiedCount,
+            success:true
         });
 
     } catch (err) {

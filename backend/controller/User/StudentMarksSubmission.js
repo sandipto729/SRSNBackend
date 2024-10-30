@@ -4,17 +4,16 @@ const studentMarksSubmission = async (req, res) => {
     try {
         const TotalUser = req.body;
 
-        // Using Promise.all to handle asynchronous updates for each user
         await Promise.all(TotalUser.map(async (user) => {
             const StudentID = user.student_id;
-            const Subject = user.subjectName; // e.g., 'BengaliW', 'EnglishL'
-            const Marks = user.Marks;
+            const Subject = user.subject;
+            const Semester=user.semester;
+            const Marks = user.marks;
 
-            // Dynamically update the specific subject within `subjects`
             const userUpdate = await userModel.findByIdAndUpdate(
                 StudentID, 
-                { [`subjects.${Subject}`]: Marks }, // Update the nested subject
-                { new: true, upsert: true } // Ensure document is returned and created if missing
+                { [`${Semester}.${Subject}`]: Marks }, 
+                { new: true, upsert: true } 
             );
 
             if (!userUpdate) {
@@ -22,7 +21,6 @@ const studentMarksSubmission = async (req, res) => {
             }
         }));
 
-        // Send a successful response if all updates are complete
         res.status(200).json({ success: true, message: 'Marks updated successfully' });
         
     } catch (err) {
