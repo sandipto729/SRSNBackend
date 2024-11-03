@@ -214,5 +214,10 @@ This project is used by the following companies:
 
 ## Feedback
 
-If you have any feedback, please reach out to us at sandipto729@gamil.com
+We value your feedback! If you have any comments, suggestions, or questions about our project, please feel free to reach out to us.
+
+You can contact us at: [sandipto729@gmail.com](mailto:sandipto729@gmail.com)
+
+Thank you for your support, and happy coding!
+
 
