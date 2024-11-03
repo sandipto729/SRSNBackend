@@ -8,7 +8,7 @@ const MessageController = async (req, res) => {
         
         // Send email notifications
         await sendEmail(Email, 'Enquiry', 'Your Enquiry has been received. We will get back to you soon.');
-        await sendEmail('sandipto729@gmail.com', 'Enquiry', message); 
+        await sendEmail('sriramakrishnasikshaniketan@gmail.com', 'Enquiry', message); 
 
         res.status(200).json({ success: true, message: 'Message sent successfully' });
 
