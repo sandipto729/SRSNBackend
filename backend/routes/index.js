@@ -42,8 +42,12 @@ const NoticeFetch = require('../controller/Notice/Noticefetch');
 const NoticeDelete=require('../controller/Notice/NoticeDelete');
 
 //Event Controller
-const eventControl = require('../controller/EventControl/EventControl');
-
+const EventAdd = require('../controller/EventControl/General/EventAdd');
+const AdmissionFetch=require('../controller/EventControl/Admission/AdmissionFetch');
+const EventEdit=require('../controller/EventControl/General/EventEdit');
+const MarksSubmissionFetch=require('../controller/EventControl/MarksSubmission/MarksSubmissionFetch');
+const EventToggle=require('../controller/EventControl/General/EventToggle');
+const EventFetch=require('../controller/EventControl/General/EventFetch');
 
 
 //Message
@@ -75,7 +79,7 @@ router.delete('/deleteUser/:userId', deleteUser);
 router.post('/message',Message);
 
 //Marks Submission
-router.post('/userMarksSubmission',userMarksSubmission);
+router.post('/userMarksSubmission',authCheck,userMarksSubmission);
 
 //get result
 router.get('/getResult',UserResult);
@@ -93,8 +97,11 @@ router.get('/noticeFetch',NoticeFetch);
 router.delete('/noticeDelete',NoticeDelete);
 
 //Event Controller
-router.get('/eventControl',eventControl);
-router.post('/updateAdmissionStatus', updateAdmissionStatus);
-
+router.post('/eventAdd',EventAdd);
+router.get('/admissionFetch',AdmissionFetch);
+router.put('/eventEdit',EventEdit);
+router.get('/marksSubmissionFetch',MarksSubmissionFetch);
+router.put('/eventToggle',authCheck,EventToggle);
+router.get('/eventFetch',EventFetch);
 
 module.exports = router;
