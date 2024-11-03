@@ -1,10 +1,10 @@
 
-# SRSN Backend 
+# <span style="color: #2E86C1;">SRSN Backend</span>
 
 This repository contains the backend code for the **Sriram Krishna Siksha Niketan** project, handling user data, authentication, and various administrative functionalities to support the school's web portal.
 
 
-## Features
+## <span style="color: #27AE60;">Features</span>
 - **User Authentication**: Secure login and password management using bcrypt.
 - **Data Management**:
   - CRUD operations for student records, including student information, results, and class changes.
@@ -14,7 +14,7 @@ This repository contains the backend code for the **Sriram Krishna Siksha Niketa
   
 
 
-## Tech Stack
+## <span style="color: #D35400;">Tech Stack</span>
 
 - **Node.js** and **Express**: Backend framework for API endpoints.
 - **MongoDB**: Database for storing user data and event details.
@@ -23,7 +23,8 @@ This repository contains the backend code for the **Sriram Krishna Siksha Niketa
 - **Cloudinary**: For image upload and storage.
 
 
-## Project Structure
+
+## <span style="color: #8E44AD;">Project Structure</span>
 The project structure follows a standard Node.js MVC architecture:
 
 ```plaintext
@@ -37,7 +38,7 @@ SRSNBackend/
 │   └── config/              # Configuration files (e.g., MongoDB connection)
 ```
 
-## Run Locally
+<span style="color: #2980B9;">Run Locally</span>
 
 Clone the project
 
@@ -74,9 +75,7 @@ Start the server
 ```
 
 
-## API Reference
-
-# API Reference
+<span style="color: #C0392B;">API Reference</span>
 
 ## Alumni Routes
 
@@ -187,24 +186,24 @@ Start the server
 
 
 
-## Authors
+<span style="color: #F39C12;">Authors</span>
 
 - [sandipto729](https://github.com/sandipto729)
 
 - [Ritam-Vaskar](https://github.com/Ritam-Vaskar)
 
 
-## Contributing
+<span style="color: #16A085;">Contributing</span>
 
 Contributions are welcome! Please fork this repository, create a new branch, and submit a pull request with a description of your changes.
 
 
-## License
+<span style="color: #8E44AD;">License</span>
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-## Used By
+<span style="color: #3498DB;">Used By</span>
 
 This project is used by the following companies:
 
@@ -212,7 +211,7 @@ This project is used by the following companies:
 
 
 
-## Feedback
+<span style="color: #E74C3C;">Feedback</span>
 
 If you have any feedback, please reach out to us at sandipto729@gamil.com
 
