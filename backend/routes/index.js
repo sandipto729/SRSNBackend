@@ -41,6 +41,11 @@ const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
 const NoticeDelete=require('../controller/Notice/NoticeDelete');
 
+//Event Controller
+const eventControl = require('../controller/EventControl/EventControl');
+
+
+
 //Message
 const Message=require('./../controller/Message/Message');
 
@@ -86,6 +91,10 @@ router.delete('/userAdmissionDelete', UserApplicationDelete);
 router.post('/noticeEntery',NoticeEntery);
 router.get('/noticeFetch',NoticeFetch);
 router.delete('/noticeDelete',NoticeDelete);
+
+//Event Controller
+router.get('/eventControl',eventControl);
+router.post('/updateAdmissionStatus', updateAdmissionStatus);
 
 
 module.exports = router;
