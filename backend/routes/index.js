@@ -3,6 +3,7 @@ const router = express.Router();
 
 //Middlewares AuthToken
 const authCheck = require('./../middlewares/authToken');
+const authAlumni=require('./../middlewares/authAlumniToken');
 
 //Check Role Middleware
 const checkAdmin=require('../middlewares/CheckAdmin');
@@ -15,6 +16,8 @@ const alumniView = require('../controller/Alumni/AlumniView');
 const alumniDelete = require('../controller/Alumni/alumniDelete');
 const alumniSearch=require('../controller/Alumni/AlumniSearch');
 const alumniApplicationView=require('../controller/Alumni/AlumniApplicationView');
+const alumniOtp=require('../controller/Alumni/alumniOtp');
+const alumniDetails=require('../controller/Alumni/AlumniDetails');
 
 
 //User
@@ -63,6 +66,11 @@ router.get('/alumniView', alumniView);
 router.delete('/alumniDelete', alumniDelete);//alumni deny
 router.post('/alumniSearch',alumniSearch);
 router.get('/alumniApplicationView',alumniApplicationView);//alumni aplication view
+router.post('/alumniOtp',alumniOtp.alumniLogin);
+router.post('/otpVerify',alumniOtp.verifyOtp);
+router.get('/alumniDetails',authAlumni,alumniDetails);
+
+
 
 //User
 router.get('/studentFetch', StudentFetch);//check auth check later *********
