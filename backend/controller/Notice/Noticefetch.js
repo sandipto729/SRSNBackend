@@ -11,7 +11,7 @@ const NewsFetch = async (req, res) => {
         }
         const notice = await NewsModel.find();
         res.status(200).json({ success: true, notice });
-        await RedisClient.set('news', JSON.stringify(notice), 'EX', DEFAULT_EXPIRATION);
+        await RedisClient.setEx('news',DEFAULT_EXPIRATION,JSON.stringify(notice));
     } catch (err) {
         console.error("Error fetching news:", err); // Log error details
         res.status(400).json({ success: false, error: err.message });

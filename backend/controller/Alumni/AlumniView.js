@@ -26,7 +26,7 @@ const alumniView = async (req, res) => {
         }
 
         // Store data in Redis cache
-        await RedisClient.set('alumnis', JSON.stringify(alumni), 'EX', DEFAULT_EXPIRATION);
+        await RedisClient.setEx('alumnis', DEFAULT_EXPIRATION, JSON.stringify(alumni));
         res.status(200).json({ success: true, alumni });
     } catch (error) {
         console.error('Error fetching alumni:', error.message);

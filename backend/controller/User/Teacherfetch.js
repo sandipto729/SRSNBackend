@@ -11,7 +11,7 @@ const teacherFetch = async (req, res) => {
         }
         const user=await UserModel.find({ role: { $regex: /teacher/i } });
         res.status(200).json({success:true,teacher:user});
-        await RedisClient.set('teachers',JSON.stringify(user),DEFAULT_EXPIRATION);
+        await RedisClient.setEx('teachers',DEFAULT_EXPIRATION,JSON.stringify(user));
     }catch(err){
         res.status(400).json({success:false,error:err.message});
     }
