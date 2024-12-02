@@ -1,6 +1,6 @@
 const UserModel=require('../../model/User/UserModel');
 const RedisClient = require('../../config/Redis');
-const DEFAULT_EXPIRATION = 60 * 60 * 3;
+const DEFAULT_EXPIRATION = 60 * 2;
 
 const teacherFetch = async (req, res) => {
     try{

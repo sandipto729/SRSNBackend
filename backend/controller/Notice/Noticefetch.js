@@ -1,6 +1,6 @@
 const NewsModel=require('../../model/Notice/NoticeModel');
 const RedisClient = require('../../config/Redis');
-const DEFAULT_EXPIRATION = 60 * 60 * 3;
+const DEFAULT_EXPIRATION = 60*2;
 
 const NewsFetch = async (req, res) => {
     try {
