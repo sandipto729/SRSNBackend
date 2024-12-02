@@ -1,4 +1,4 @@
-const DEFAULT_EXPIRATION = 60 * 60 * 3; // 3 hours
+const DEFAULT_EXPIRATION = 60 * 2; 
 const alumniVeriModel = require('../../model/Alumni/alumniVeriModel');
 const RedisClient = require('../../config/Redis');
 
