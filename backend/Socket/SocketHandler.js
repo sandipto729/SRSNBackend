@@ -27,6 +27,16 @@ const SocketHandler = (io) => {
         console.error('Error saving message:', error.message);
       }
     });
+    socket.on('delete_message', async (data) => {
+      try {
+        console.log('Deleting message:', data._id);
+        await Chat.findByIdAndDelete(data._id);
+        const allMessages = await Chat.find().sort({ createdAt: 1 });
+        io.emit('all_messages', allMessages);
+      } catch (error) {
+        console.error('Error deleting message:', error.message);
+      }
+    });
 
     socket.on('disconnect', () => {
       console.log(`Client disconnected: ${socket.id}`);
