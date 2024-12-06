@@ -18,6 +18,7 @@ const alumniSearch=require('../controller/Alumni/AlumniSearch');
 const alumniApplicationView=require('../controller/Alumni/AlumniApplicationView');
 const alumniOtp=require('../controller/Alumni/alumniOtp');
 const alumniDetails=require('../controller/Alumni/AlumniDetails');
+const alumniUpdateProfile=require('../controller/Alumni/alumniEdit');
 
 
 //User
@@ -69,6 +70,7 @@ router.get('/alumniApplicationView',alumniApplicationView);//alumni aplication v
 router.post('/alumniOtp',alumniOtp.alumniLogin);
 router.post('/otpVerify',alumniOtp.verifyOtp);
 router.get('/alumniDetails',authAlumni,alumniDetails);
+router.put('/alumniUpdateProfile',authAlumni,alumniUpdateProfile);
 
 
 
