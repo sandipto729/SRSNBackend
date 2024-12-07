@@ -57,7 +57,7 @@ const verifyOtp = async (req, res) => {
         const tokenOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            sameSite: 'strict',
         };
 
         res.cookie('alumnitoken', token, tokenOptions).json({

@@ -8,16 +8,17 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'sriramakrishnasikshaniketan@gmail.com',
-    pass: password
-  }
+    pass: password,
+  },
 });
 
-const sendEmail = async (to, subject, text) => {
+const sendEmail = async (to, subject, text, attachments = []) => {
   const mailOptions = {
     from: 'sriramakrishnasikshaniketan@gmail.com',
     to: to,
     subject: subject,
-    text: text
+    text: text,
+    attachments: attachments, 
   };
 
   try {
