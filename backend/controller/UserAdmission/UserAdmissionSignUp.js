@@ -256,7 +256,8 @@ const userAdmissionSignUp = async (req, res) => {
       { label: 'Father\'s Name', value: userAdmissionData.fatherName },
       { label: 'Mother\'s Name', value: userAdmissionData.motherName },
       { label: 'Guardian\'s Name', value: userAdmissionData.guardianName },
-      { label: 'Payment ID', value: userAdmissionData.paymentId }
+      { label: 'Payment ID', value: userAdmissionData.paymentId },
+      { label: 'Class ', value: userAdmissionData.grade },
     ];
 
     // Adding the fields to the PDF
