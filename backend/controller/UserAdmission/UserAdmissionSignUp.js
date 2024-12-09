@@ -229,6 +229,10 @@ const userAdmissionSignUp = async (req, res) => {
     doc.fillColor('#333333')  // Dark grey for address
       .fontSize(10)
       .text('Address: Haridasnagar, Raghunathganj, Murshidabad, West Bengal, India', { align: 'center' });
+    doc.fillColor('#333333')  // Dark grey for email
+      .text('Email: sriramakrishnasikshaniketan@gmail.com', { align: 'center' });
+    doc.fillColor('#333333')  // Dark grey for phone
+      .text('Phone: 9932842142,9434531454', { align: 'center' });
 
     doc.fillColor('#FF5733')  // Orange for date
       .fontSize(10)
