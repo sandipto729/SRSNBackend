@@ -62,6 +62,11 @@ const http = require('http');
 const { Server } = require('socket.io');
 const SocketHandler = require('./Socket/SocketHandler');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Load environment variables
 dotenv.config();
 
@@ -83,10 +88,7 @@ app.use(cors({
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Routes
 const userRoutes = require('./routes'); 

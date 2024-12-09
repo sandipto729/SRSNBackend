@@ -19,6 +19,7 @@ const alumniApplicationView=require('../controller/Alumni/AlumniApplicationView'
 const alumniOtp=require('../controller/Alumni/alumniOtp');
 const alumniDetails=require('../controller/Alumni/AlumniDetails');
 const alumniUpdateProfile=require('../controller/Alumni/alumniEdit');
+const alumniLogOut=require('../controller/Alumni/alumniLogOut');
 
 
 //User
@@ -38,7 +39,9 @@ const UserResult=require('./../controller/User/CalculateResult');
 const UserAdmissionSignUp = require('../controller/UserAdmission/UserAdmissionSignUp');
 const UserAdmissionFetch = require('../controller/UserAdmission/UserAdmissionfetch');
 const UserApplicationAdd = require('../controller/UserAdmission/UserApplicationAdd');
+const UserApplicationAddArray = require('../controller/UserAdmission/userApplicationAddArray');
 const UserApplicationDelete = require('../controller/UserAdmission/UserAppicationDelete');
+const userAdmissionSearch = require('../controller/UserAdmission/userAdmissionSearch');
 
 //News
 const NoticeEntery = require('../controller/Notice/NoticeEntery');
@@ -49,7 +52,7 @@ const NoticeDelete=require('../controller/Notice/NoticeDelete');
 const EventAdd = require('../controller/EventControl/General/EventAdd');
 const AdmissionFetch=require('../controller/EventControl/Admission/AdmissionFetch');
 const EventEdit=require('../controller/EventControl/General/EventEdit');
-const MarksSubmissionFetch=require('../controller/EventControl/MarksSubmission/MarksSubmissionFetch');
+const MarksSubmissionFetch=require('./../controller/EventControl/MarksSubmission/MarksSubmissionFetch');
 const EventToggle=require('../controller/EventControl/General/EventToggle');
 const EventFetch=require('../controller/EventControl/General/EventFetch');
 
@@ -71,6 +74,8 @@ router.post('/alumniOtp',alumniOtp.alumniLogin);
 router.post('/otpVerify',alumniOtp.verifyOtp);
 router.get('/alumniDetails',authAlumni,alumniDetails);
 router.put('/alumniUpdateProfile',authAlumni,alumniUpdateProfile);
+router.post('/alumniLogOut',authAlumni,alumniLogOut);
+
 
 
 
@@ -92,13 +97,16 @@ router.post('/message',Message);
 router.post('/userMarksSubmission',authCheck,userMarksSubmission);
 
 //get result
-router.get('/getResult',UserResult);
+router.get('/getResultPrimary',UserResult.calculateResultBeezTo4);
+router.get('/getResultHigh',UserResult.calculateResult5To8);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
 router.get('/userAdmissionFetch', UserAdmissionFetch);
 router.post('/userAdmissionAdd', UserApplicationAdd);
+router.post('/userAdmissionAddArray', UserApplicationAddArray);
 router.delete('/userAdmissionDelete', UserApplicationDelete);
+router.post('/userAdmissionSearch',userAdmissionSearch);
 
 
 //Notice(add auth later)
