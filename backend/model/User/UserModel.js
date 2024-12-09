@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const {BeezSyllabus,AnkurSyllabus,KisholoySyllabus,C1Syllabus,C2Syllabus,C3Syllabus,C4Syllabus}=require('./../../helper/Class');
+const {BeezSyllabus,AnkurSyllabus,KisholoySyllabus,C1Syllabus,C2Syllabus,C3Syllabus,C4Syllabus,C5Syllabus,C6Syllabus,C7Syllabus,C8Syllabus}=require('./../../helper/Class');
 
 const UserSchema = new Mongoose.Schema({
     // Basic Info
@@ -218,6 +218,26 @@ UserSchema.pre('save', async function (next) {
         this.firstSem = C4Syllabus; 
         this.secondSem = C4Syllabus;
         this.endSem = C4Syllabus;
+      }
+      else if(this.grade === '5'){
+        this.firstSem = C5Syllabus; 
+        this.secondSem = C5Syllabus;
+        this.endSem = C5Syllabus;
+      }
+      else if(this.grade === '6'){
+        this.firstSem = C6Syllabus; 
+        this.secondSem = C6Syllabus;
+        this.endSem = C6Syllabus;
+      }
+      else if(this.grade === '7'){
+        this.firstSem = C7Syllabus; 
+        this.secondSem = C7Syllabus;
+        this.endSem = C7Syllabus;
+      }
+      else if(this.grade === '8'){
+        this.firstSem = C8Syllabus; 
+        this.secondSem = C8Syllabus;
+        this.endSem = C8Syllabus;
       }
     }
     next();

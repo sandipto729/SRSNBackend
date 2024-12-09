@@ -88,15 +88,15 @@
 //     doc.fillColor('#4B8BF4')  // Color for the school name
 //       .fontSize(14)
 //       .text('Sri Ramakrishna Siksha Niketan', { align: 'center' });
-    
+
 //     doc.fillColor('#333333')  // Color for the address
 //       .fontSize(10)
 //       .text('Address: haridasnagar, Raghunathganj, Murshidabad, West Bengal, India', { align: 'center' });
-    
+
 //     doc.fillColor('#FF5733')  // Color for the date
 //       .fontSize(10)
 //       .text(`Date: ${new Date().toLocaleDateString()}`, { align: 'center' });
-    
+
 //     doc.moveDown();
 
 //     // Admission Application Title
@@ -173,7 +173,7 @@ const userAdmissionSignUp = async (req, res) => {
   try {
     console.log("Request received:", req.body);
 
-    const { email, ipAddress } = req.body; // Assuming the IP address is passed in the request body
+    const { email, ipAddress, paymentId } = req.body; // Assuming the IP address is passed in the request body
 
     // Check if user already exists
     console.log("Checking if user exists in database");
@@ -182,6 +182,15 @@ const userAdmissionSignUp = async (req, res) => {
       console.log("User already exists");
       return res.status(400).json({ success: false, message: 'User already exists' });
     }
+    //check payment (does 2 payment id same or not)
+    if (paymentId !== 'cash') {
+      const existingPayment = await UserAdmissionModel.findOne({ paymentId: paymentId });
+      if (existingPayment) {
+        console.log("Payment already exists");
+        return res.status(400).json({ success: false, message: 'Payment Id already exists' });
+      }
+    }
+
 
     const { rAddressSameAsPermanent, ...userAdmissionData } = req.body;
 
@@ -219,7 +228,7 @@ const userAdmissionSignUp = async (req, res) => {
 
     doc.fillColor('#333333')  // Dark grey for address
       .fontSize(10)
-      .text('Address: 17 Fultala, Raghunathganj, Murshidabad, West Bengal, India', { align: 'center' });
+      .text('Address: Haridasnagar, Raghunathganj, Murshidabad, West Bengal, India', { align: 'center' });
 
     doc.fillColor('#FF5733')  // Orange for date
       .fontSize(10)
@@ -262,7 +271,7 @@ const userAdmissionSignUp = async (req, res) => {
 
     // Adding the fields to the PDF
     doc.moveDown();
-    
+
     // Label and value coloring
     fields.forEach(field => {
       // Label in black

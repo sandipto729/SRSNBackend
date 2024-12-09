@@ -189,13 +189,10 @@ const tempUserSchema=new Mongoose.Schema({
         type:String,
         required:true
     },
-
-    //Payment Details
-    paymentId:{
-        type:String,
-        required:true,
-        unique:true
-    }
+    paymentId: {
+        type: String,
+        required: true,
+    },
 },{
     timestamps:true
 })
