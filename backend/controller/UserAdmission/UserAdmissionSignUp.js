@@ -169,6 +169,7 @@ const fs = require('fs');
 const UserAdmissionModel = require('../../model/User/UserAdmissionModel');
 const sendEmail = require('./../../helper/Mail');
 const path = require('path');
+const UserModel = require('../../model/User/UserModel');
 
 const userAdmissionSignUp = async (req, res) => {
   try {
@@ -180,6 +181,11 @@ const userAdmissionSignUp = async (req, res) => {
     console.log("Checking if user exists in database");
     const existingUser = await UserAdmissionModel.findOne({ email: email });
     if (existingUser) {
+      console.log("User already exists");
+      return res.status(400).json({ success: false, message: 'User already exists' });
+    }
+    const existingUser2 = await UserModel.findOne({ email: email });
+    if (existingUser2) {
       console.log("User already exists");
       return res.status(400).json({ success: false, message: 'User already exists' });
     }
