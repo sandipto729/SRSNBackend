@@ -168,6 +168,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const UserAdmissionModel = require('../../model/User/UserAdmissionModel');
 const sendEmail = require('./../../helper/Mail');
+const path = require('path');
 
 const userAdmissionSignUp = async (req, res) => {
   try {
@@ -220,6 +221,8 @@ const userAdmissionSignUp = async (req, res) => {
     const doc = new PDFDocument();
     const writeStream = fs.createWriteStream(pdfPath);
     doc.pipe(writeStream);
+
+    console.log(path.resolve(__dirname, './../../public/logo.png'));
 
     // School Name, Address, Date, and Application ID at the top with color
     doc.fillColor('#4B8BF4')  // Blue for school name
@@ -287,6 +290,22 @@ const userAdmissionSignUp = async (req, res) => {
       doc.fillColor('#888888')  // Grey for values
         .text(` ${field.value}`);
     });
+
+     //school logo
+    // Draw the image
+    doc.image(path.resolve(__dirname, './../../public/logo.png'), {
+      fit: [100, 100],
+      x: doc.page.width / 2 - 50,
+      y: doc.y + 10
+    });
+
+    // Overlay a semi-transparent rectangle
+    doc.fillColor('white')
+      .opacity(0.5) // Set transparency
+      .rect(doc.page.width / 2 - 50, doc.y + 10, 100, 100) // Same dimensions as the logo
+      .fill()
+      .opacity(1); // Reset opacity for subsequent elements
+
 
     doc.end();
 
