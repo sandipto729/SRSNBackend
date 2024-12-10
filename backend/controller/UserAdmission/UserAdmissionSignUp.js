@@ -222,7 +222,7 @@ const userAdmissionSignUp = async (req, res) => {
     const writeStream = fs.createWriteStream(pdfPath);
     doc.pipe(writeStream);
 
-    console.log(path.resolve(__dirname, './../../public/logo.png'));
+    console.log(path.resolve(__dirname, './../../public/Logo.png'));
 
     // School Name, Address, Date, and Application ID at the top with color
     doc.fillColor('#4B8BF4')  // Blue for school name
@@ -293,7 +293,7 @@ const userAdmissionSignUp = async (req, res) => {
 
      //school logo
     // Draw the image
-    doc.image(path.resolve(__dirname, './../../public/logo.png'), {
+    doc.image(path.resolve(__dirname, './../../public/Logo.png'), {
       fit: [100, 100],
       x: doc.page.width / 2 - 50,
       y: doc.y + 10
