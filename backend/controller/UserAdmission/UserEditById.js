@@ -1,4 +1,4 @@
-const UserModel=require('../../model/User/UserModel');
+const UserModel=require('../../model/User/UserAdmissionModel');
 
 const UserEditById=async(req,res)=>{
     try{
