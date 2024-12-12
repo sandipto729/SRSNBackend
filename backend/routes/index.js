@@ -34,6 +34,9 @@ const userMarksSubmission=require('../controller/User/StudentMarksSubmission');
 const deleteUser = require('../controller/User/UserDelete');
 const userChangeClass = require('./../controller/User/UserChangeClass');
 const UserResult=require('./../controller/User/CalculateResult');
+const ForgotPassword=require('./../controller/User/ForgotPassword');
+const UserEditById=require('./../controller/User/UserEditById');
+
 
 //Student Admission
 const UserAdmissionSignUp = require('../controller/UserAdmission/UserAdmissionSignUp');
@@ -89,6 +92,11 @@ router.get('/teacherFetch',TeacherFetch);
 router.post('/userLogout',authCheck,logoutUser);
 router.put('/chnageYearClass',userChangeClass);//check auth check later *********
 router.delete('/deleteUser/:userId', deleteUser);
+router.post('/forgotpasswordotpsend',ForgotPassword.userLogin);
+router.post('/forgotpasswordotpverify',ForgotPassword.verifyOtp);
+router.post('/resetpassword',ForgotPassword.resetPassword);
+router.put('/userEditById',UserEditById);
+
 
 //Message
 router.post('/message',Message);
