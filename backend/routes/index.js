@@ -37,6 +37,7 @@ const UserResult=require('./../controller/User/CalculateResult');
 const ForgotPassword=require('./../controller/User/ForgotPassword');
 
 
+
 //Student Admission
 const UserAdmissionSignUp = require('../controller/UserAdmission/UserAdmissionSignUp');
 const UserAdmissionFetch = require('../controller/UserAdmission/UserAdmissionfetch');
@@ -44,7 +45,7 @@ const UserApplicationAdd = require('../controller/UserAdmission/UserApplicationA
 const UserApplicationAddArray = require('../controller/UserAdmission/userApplicationAddArray');
 const UserApplicationDelete = require('../controller/UserAdmission/UserAppicationDelete');
 const userAdmissionSearch = require('../controller/UserAdmission/userAdmissionSearch');
-
+const UserEditById=require('./../controller/UserAdmission/UserEditById');
 //News
 const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
@@ -96,6 +97,7 @@ router.post('/forgotpasswordotpverify',ForgotPassword.verifyOtp);
 router.post('/resetpassword',ForgotPassword.resetPassword);
 
 
+
 //Message
 router.post('/message',Message);
 
@@ -113,6 +115,7 @@ router.post('/userAdmissionAdd', UserApplicationAdd);
 router.post('/userAdmissionAddArray', UserApplicationAddArray);
 router.delete('/userAdmissionDelete', UserApplicationDelete);
 router.post('/userAdmissionSearch',userAdmissionSearch);
+router.put('/userEditById',UserEditById);
 
 
 //Notice(add auth later)

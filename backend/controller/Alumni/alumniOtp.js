@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const RedisClient = require('../../config/Redis'); 
 
+
 const alumniLogin = async (req, res) => {
     try {
         const { email } = req.body;
