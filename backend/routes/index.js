@@ -63,6 +63,12 @@ const EventFetch=require('../controller/EventControl/General/EventFetch');
 //Message
 const Message=require('./../controller/Message/Message');
 
+//Blog 
+const BlogAdd = require('./../controller/Blog/BlogCreate');
+const BlogFetch = require('./../controller/Blog/Blogfetch');
+const BlogDelete=require('./../controller/Blog/BlogDelete');
+
+
 
 
 
@@ -130,5 +136,11 @@ router.put('/eventEdit',EventEdit);
 router.get('/marksSubmissionFetch',MarksSubmissionFetch);
 router.put('/eventToggle',authCheck,EventToggle);
 router.get('/eventFetch',EventFetch);
+
+
+//Blog
+router.post('/blogAdd',BlogAdd);
+router.get('/blogFetch',BlogFetch);
+router.delete('/blogDelete',BlogDelete);
 
 module.exports = router;
