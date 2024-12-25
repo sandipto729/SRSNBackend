@@ -21,15 +21,14 @@
 
 
 
-
 async function userLogOut(req, res) {
     try {
         res.clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', 
-            sameSite: 'none',
-            // domain: '.example.com', // Set this to your backend domain or leave it out if subdomain-specific
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict', // Adjust `sameSite` based on the environment
         });
+
         res.json({
             message: "User Logged Out",
             error: false,
@@ -46,4 +45,4 @@ async function userLogOut(req, res) {
     }
 }
 
-module.exports=userLogOut;
+module.exports = userLogOut;
