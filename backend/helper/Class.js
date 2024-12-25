@@ -116,7 +116,7 @@ const C2Syllabus = {
 const C3Syllabus = {
     //Bengali 1
     Bengali1W: 0,
-    Bengali2O: 0,
+    Bengali1O: 0,
     //Bengali 2
     Bengali2W: 0,
     Bengali2O: 0,
@@ -157,7 +157,7 @@ const C3Syllabus = {
 const C4Syllabus = {
     //Bengali 1
     Bengali1W: 0,
-    Bengali2O: 0,
+    Bengali1O: 0,
     //Bengali 2
     Bengali2W: 0,
     Bengali2O: 0,
