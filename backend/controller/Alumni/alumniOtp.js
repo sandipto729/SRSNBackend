@@ -63,8 +63,8 @@ const verifyOtp = async (req, res) => {
         // Configure cookie options
         const tokenOptions = {
             httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production', // Secure cookie for production
-            sameSite: 'None' // Adjust based on environment
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'none' 
         };
 
         // Set the cookie and return a successful response
