@@ -45,7 +45,7 @@ const UserApplicationAdd = require('../controller/UserAdmission/UserApplicationA
 const UserApplicationAddArray = require('../controller/UserAdmission/userApplicationAddArray');
 const UserApplicationDelete = require('../controller/UserAdmission/UserAppicationDelete');
 const userAdmissionSearch = require('../controller/UserAdmission/userAdmissionSearch');
-const UserEditById=require('./../controller/UserAdmission/UserEditById');
+const UserEditById=require('../controller/User/UserEditById');
 //News
 const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
