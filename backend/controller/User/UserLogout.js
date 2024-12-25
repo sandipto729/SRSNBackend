@@ -26,7 +26,7 @@ async function userLogOut(req, res) {
         res.clearCookie('token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict', // Adjust `sameSite` based on the environment
+            sameSite: 'None' // Adjust `sameSite` based on the environment
         });
 
         res.json({
