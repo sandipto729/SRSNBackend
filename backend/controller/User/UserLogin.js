@@ -21,7 +21,7 @@ const userLogin = async (req, res) => {
         const tokenOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+            sameSite: process.env.NODE_ENV === 'None',
         };
 
         res.cookie('token', token, tokenOptions).json({
