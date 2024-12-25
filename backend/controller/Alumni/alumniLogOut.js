@@ -22,19 +22,21 @@
 // module.exports = userLogOut
 
 
-async function userLogOut(req, res) {
+const userLogOut = async (req, res) => {
     try {
+        // Retrieve the token from cookies
         const token = req.cookies?.alumnitoken;
-        console.log('alumni token:', token);
+        console.log('Alumni token:', token);
 
+        // Clear the cookie with appropriate options
         res.clearCookie('alumnitoken', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Set secure only in production
-            sameSite: 'none', // Explicitly set SameSite to 'None' for cross-site usage
-            // domain: '.example.com', // Use your domain here if necessary
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
         });
 
-        res.json({
+        // Send a successful response
+        res.status(200).json({
             message: "User Logged Out",
             error: false,
             success: true,
@@ -48,6 +50,6 @@ async function userLogOut(req, res) {
             success: false
         });
     }
-}
+};
 
 module.exports = userLogOut;
