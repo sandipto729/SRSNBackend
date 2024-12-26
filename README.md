@@ -1,7 +1,6 @@
-
 # SRSN Backend 
 
-This repository contains the backend code for the **Sriram Krishna Siksha Niketan** project, handling user data, authentication, and various administrative functionalities to support the school's web portal.
+This repository contains the backend code for the **Sri Ramkrishna Siksha Niketan** project, handling user data, authentication, and various administrative functionalities to support the school's web portal.
 
 
 ## Features
@@ -11,6 +10,8 @@ This repository contains the backend code for the **Sriram Krishna Siksha Niketa
   - Event management with toggles for event status controlled by admin permissions.
 - **Event Tracking**: A separate table records event status changes, with a popup for detailed change history.
 - **Profile Picture Uploads**: Integrated with Cloudinary to handle image uploads and URL generation.
+- **Real-Time Chat**:Implemented socket-based functionality for real-time communication, with separate chat rooms for classes, events, or admin discussions, including typing indicators and message delivery status.
+- **Redis Integration**: Used for ATP (Automatic Token Processing) verification to enhance security and efficiency, and leveraged as an in-memory storage system for faster operations like session management, caching, and real-time data synchronization.
   
 
 
@@ -21,23 +22,32 @@ This repository contains the backend code for the **Sriram Krishna Siksha Niketa
 - **Nodemailer**: For sending notification emails (e.g., password recovery).
 - **bcrypt**: For password hashing.
 - **Cloudinary**: For image upload and storage.
+- **Redis**: For ATP verification, in-memory storage, and faster operations like caching and session management.
+- **Socket.io**: For implementing real-time communication through sockets.
+- **Docker**: For containerizing the application and ensuring consistency across development and production environments.
 
 
 ## Project Structure
 The project structure follows a standard Node.js MVC architecture:
 
+
+
 ```plaintext
 SRSNBackend/
 ├── backend/
-│   ├── controllers/         # Handles business logic for various routes
-│   ├── models/              # Mongoose schemas for MongoDB collections
-│   ├── routes/              # Defines API routes
+│   ├── socket/              # Handles real-time socket connections and events
+│   ├── config/              # Configuration files (e.g., MongoDB connection)
+│   ├── controller/          # Handles business logic for various routes
+│   ├── helper/              # Helper functions (e.g., password hashing, utility functions)
 │   ├── middleware/          # Middleware, including authentication checks
-│   ├── utils/               # Utility functions (e.g., image upload handling)
-│   └── config/              # Configuration files (e.g., MongoDB connection)
+│   ├── model/               # Mongoose schemas for MongoDB collections
+│   ├── public/              # Static files (e.g., images, stylesheets, JavaScript)
+│   └── routes/              # Defines API routes
 ```
 
 ## Run Locally
+
+### Process 1
 
 Clone the project
 
@@ -72,118 +82,51 @@ Start the server
 ```bash
   node index.js
 ```
+### Process 2
+
+Running the Repository Using Docker
+
+To run this repository with Docker, follow these steps:
+
+- Ensure Prerequisites Are Installed
+
+Make sure you have Docker installed on your system. You can download Docker from Docker's official website.
+
+- Set Up Required Environment Variables
+
+The following environment variables are needed to run the container successfully:
+
+- **MONGO_URL**: The connection string for your MongoDB database.
+- **TOKEN_SECRET_KEY**: A secret key used for token-based authentication.
+- **PassKey**: The passkey for your Gmail account, used for email functionality.
+- **REDIS_PASSWORD**: The password for your Redis instance.
+- **REDIS_HOST**: The hostname or IP address of your Redis instance.
+- **REDIS_PORT**: The port on which your Redis instance is running.
+
+- Run the Docker Command
+
+Execute the following command in your terminal to start the Docker container:
+
+```bash
+
+docker run -it \
+  -e MONGO_URL="Your_mongo_database" \
+  -e TOKEN_SECRET_KEY="Your_token_secret_key" \
+  -e PassKey="Your_gmail_passkey" \
+  -e REDIS_PASSWORD="Your_redis_password" \
+  -e REDIS_HOST="Your_redis_host" \
+  -e REDIS_PORT="Your_redis_port" \
+  -p 8000:8000 sandipto729/srsnbackend
+  ```
+Replace the placeholder values (Your_mongo_database, Your_token_secret_key, etc.) with your actual environment-specific configurations.
+
+- Access the Application
+Once the container is running, the application will be accessible on http://localhost:8000.
+
+- Stopping the Container
+To stop the running container, press Ctrl+C in the terminal or use the docker stop command followed by the container ID.
 
 
-## API Reference
-
-# API Reference
-
-## Alumni Routes
-
-- **POST** `/alumniTempSave`
-  - Save alumni temporary data.
-  
-- **POST** `/alumniVeri`
-  - Verify and accept alumni.
-  
-- **GET** `/alumniView`
-  - Retrieve alumni information.
-  
-- **DELETE** `/alumniDelete`
-  - Deny or delete an alumni record.
-  
-- **POST** `/alumniSearch`
-  - Search for alumni based on criteria.
-  
-- **GET** `/alumniApplicationView`
-  - View alumni application details.
-
-## User Routes
-
-- **GET** `/studentFetch`
-  - Fetch student details. *(Authentication required)*
-  
-- **POST** `/userSignUp`
-  - Register a new user. *(Authentication required)*
-  
-- **POST** `/userSignIn`
-  - Log in an existing user.
-  
-- **GET** `/userProfile`
-  - Retrieve user profile. *(Authentication required)*
-  
-- **PUT** `/userEdit`
-  - Edit user profile details. *(Authentication required)*
-  
-- **GET** `/teacherFetch`
-  - Fetch teacher details.
-  
-- **POST** `/userLogout`
-  - Log out the current user. *(Authentication required)*
-  
-- **PUT** `/chnageYearClass`
-  - Change the class year for a user. *(Authentication required)*
-  
-- **DELETE** `/deleteUser/:userId`
-  - Delete a user by ID.
-
-## Message Routes
-
-- **POST** `/message`
-  - Send a message.
-
-## Marks Submission Routes
-
-- **POST** `/userMarksSubmission`
-  - Submit marks for a user. *(Authentication required)*
-
-- **GET** `/getResult`
-  - Retrieve results for a user.
-
-## Student Admission Routes
-
-- **POST** `/userAdmissionSignUp`
-  - Sign up for student admission.
-  
-- **GET** `/userAdmissionFetch`
-  - Fetch admission details.
-  
-- **POST** `/userAdmissionAdd`
-  - Add an admission application.
-  
-- **DELETE** `/userAdmissionDelete`
-  - Delete an admission application.
-
-## Notice Routes
-
-- **POST** `/noticeEntery`
-  - Add a notice.
-  
-- **GET** `/noticeFetch`
-  - Fetch all notices.
-  
-- **DELETE** `/noticeDelete`
-  - Delete a notice by ID.
-
-## Event Controller Routes
-
-- **POST** `/eventAdd`
-  - Add a new event.
-  
-- **GET** `/admissionFetch`
-  - Fetch admission-related events.
-  
-- **PUT** `/eventEdit`
-  - Edit an existing event.
-  
-- **GET** `/marksSubmissionFetch`
-  - Fetch marks submission events.
-  
-- **PUT** `/eventToggle`
-  - Toggle the status of an event. *(Authentication required)*
-  
-- **GET** `/eventFetch`
-  - Fetch all events.
 
 
 
@@ -219,5 +162,3 @@ We value your feedback! If you have any comments, suggestions, or questions abou
 You can contact us at: [sandipto729@gmail.com](mailto:sandipto729@gmail.com)
 
 Thank you for your support, and happy coding!
-
-
