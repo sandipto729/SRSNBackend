@@ -25,7 +25,7 @@ const UserGoogleLogin=async(req,res)=>{
         const tokenOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: 'none',
         };
         res.cookie('token', jwtToken, tokenOptions).json({
             message: "Signin successful",

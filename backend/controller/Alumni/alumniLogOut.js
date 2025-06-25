@@ -32,7 +32,7 @@ const userLogOut = async (req, res) => {
         res.clearCookie('alumnitoken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite:'strict',
+            sameSite:'none',
         });
 
         // Send a successful response

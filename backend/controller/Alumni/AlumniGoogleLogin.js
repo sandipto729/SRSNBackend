@@ -24,7 +24,7 @@ const AlumniGoogleLogin = async (req, res) => {
 
         const alumni = await AlumniModel.findOne({ email });
         console.log('Alumni : ',alumni);
-        
+
         if (!alumni) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
@@ -40,7 +40,7 @@ const AlumniGoogleLogin = async (req, res) => {
         const tokenOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: 'none',
         };
 
         res.cookie('alumnitoken', jwtToken, tokenOptions).json({
