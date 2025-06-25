@@ -6,7 +6,7 @@ const NewsFetch = async (req, res) => {
     try {
         const catchedNews = await RedisClient.get('news');
         if (catchedNews) {
-            console.log('Using Redis cache getting news',JSON.parse(catchedNews));
+            // console.log('Using Redis cache getting news',JSON.parse(catchedNews));
             return res.json({ success: true, notice: JSON.parse(catchedNews) });
         }
         const notice = await NewsModel.find();

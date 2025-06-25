@@ -20,6 +20,7 @@ const alumniOtp=require('../controller/Alumni/alumniOtp');
 const alumniDetails=require('../controller/Alumni/AlumniDetails');
 const alumniUpdateProfile=require('../controller/Alumni/alumniEdit');
 const alumniLogOut=require('../controller/Alumni/alumniLogOut');
+const alumniGoogleLogin=require('../controller/Alumni/AlumniGoogleLogin');
 
 
 //User
@@ -35,6 +36,7 @@ const deleteUser = require('../controller/User/UserDelete');
 const userChangeClass = require('./../controller/User/UserChangeClass');
 const UserResult=require('./../controller/User/CalculateResult');
 const ForgotPassword=require('./../controller/User/ForgotPassword');
+const UserGoogleLogin=require('./../controller/User/UserGoogleLogin');
 
 
 
@@ -84,8 +86,7 @@ router.post('/otpVerify',alumniOtp.verifyOtp);
 router.get('/alumniDetails',authAlumni,alumniDetails);
 router.put('/alumniUpdateProfile',authAlumni,alumniUpdateProfile);
 router.post('/alumniLogOut',authAlumni,alumniLogOut);
-
-
+router.post('/alumniGoogleLogin',alumniGoogleLogin);
 
 
 //User
@@ -101,7 +102,7 @@ router.delete('/deleteUser/:userId', deleteUser);
 router.post('/forgotpasswordotpsend',ForgotPassword.userLogin);
 router.post('/forgotpasswordotpverify',ForgotPassword.verifyOtp);
 router.post('/resetpassword',ForgotPassword.resetPassword);
-
+router.post('/userGoogleLogin',UserGoogleLogin);
 
 
 //Message
