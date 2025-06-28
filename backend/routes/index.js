@@ -9,6 +9,9 @@ const authAlumni=require('./../middlewares/authAlumniToken');
 const checkAdmin=require('../middlewares/CheckAdmin');
 const checkTeacher=require('../middlewares/CheckTeacher');
 
+//Token Store
+const storeToken=require('./../controller/TokenStore/store_token');
+const tokenMessage=require('./../controller/TokenStore/send_message');
 //Alumni Controller
 const alumniTemp = require('../controller/Alumni/alumniTemp');
 const alumniVeri = require('../controller/Alumni/alumniVeri');
@@ -74,6 +77,9 @@ const BlogDelete=require('./../controller/Blog/BlogDelete');
 
 
 
+//token store fcm
+router.post('/save-token', storeToken);
+router.post('/token-send-message', tokenMessage);
 //Alumni Routes((add authcheck later********************))
 router.post('/alumniTempSave', alumniTemp);
 router.post('/alumniVeri', alumniVeri);//anumni accept
