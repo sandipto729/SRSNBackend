@@ -50,7 +50,7 @@ const studentMarksSubmission = async (req, res) => {
         const logEntry = `${user.name} updated on ${new Date().toISOString()} - Class ${studentClass}, Semester ${firstStudentEntry.semester}, Subject ${firstStudentEntry.subject}`;
        
 
-        if (studentClass && /^(beez|ankur|kisholoy|1|2|3|4)$/i.test(studentClass)) {
+        if (studentClass && /^(Beez|Ankur|Kisholoy|1|2|3|4)$/i.test(studentClass)) {
             if(primaryResult.isOngoing){
                 return res.status(400).json({ success: false, message: "MarksSubmission event is ongoing. Contact admin to stop the event." });
             }

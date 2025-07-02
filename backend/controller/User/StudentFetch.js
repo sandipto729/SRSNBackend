@@ -5,17 +5,17 @@ const userFetch = async (req, res) => {
         // Fetch students from each grade
         const userBeez = await userModel.find({
             role: { $regex: /student/i },
-            grade: { $regex: /^beez$/i }  // Regex to match 'beez', case-insensitive
+            grade: { $regex: /^Beez$/i }  // Regex to match 'beez', case-insensitive
         }).sort({ result: 1 });
         
         const userAnkur = await userModel.find({
             role: { $regex: /student/i },
-            grade: { $regex: /^ankur$/i }  // Regex to match 'ankur', case-insensitive
+            grade: { $regex: /^Ankur$/i }  // Regex to match 'ankur', case-insensitive
         }).sort({ result: 1 });
         
         const userKisholoy = await userModel.find({
             role: { $regex: /student/i },
-            grade: { $regex: /^kisholoy$/i }  // Regex to match 'kisholoy', case-insensitive
+            grade: { $regex: /^Kisholoy$/i }  // Regex to match 'kisholoy', case-insensitive
         }).sort({ result: 1 });
         
         const userC1 = await userModel.find({ role: { $regex: /student/i }, grade: '1' }).sort({ result: 1 });
