@@ -185,17 +185,17 @@ const UserSchema = new Mongoose.Schema({
 
 UserSchema.pre('save', async function (next) {
     if (this.isModified('grade')) {
-      if (this.grade === 'beez') {
+      if (this.grade === 'Beez') {
           this.firstSem = BeezSyllabus;
           this.secondSem = BeezSyllabus;
           this.endSem = BeezSyllabus;
       }
-      else if (this.grade === 'ankur') {
+      else if (this.grade === 'Ankur') {
         this.firstSem = AnkurSyllabus; 
         this.secondSem = AnkurSyllabus;
         this.endSem = AnkurSyllabus;
       }
-      else if (this.grade === 'kisholoy') {
+      else if (this.grade === 'Kisholoy') {
         this.firstSem = KisholoySyllabus;
         this.secondSem = KisholoySyllabus;
         this.endSem = KisholoySyllabus;

@@ -31,6 +31,8 @@ const AnkurSyllabus = {
     EnglishA: 0,
     //Maths
     Maths: 0,
+    //Draw
+    Draw:0,
     //Work
     Work: 0,
     //Physical Education
@@ -50,6 +52,8 @@ const KisholoySyllabus = {
     EnglishA: 0,
     //Maths
     Maths: 0,
+    //Draw
+    Draw:0,
     //Work
     Work: 0,
     //Physical Education

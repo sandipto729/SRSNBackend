@@ -108,7 +108,7 @@ const userChangeClass = async (req, res) => {
         }));
 
         // Update Kisholoy students to class 1
-        const kisholoyStudent = await userModel.find({ grade: 'kisholoy' });
+        const kisholoyStudent = await userModel.find({ grade: 'Kisholoy' });
         const updates9 = kisholoyStudent.map(student => ({
             updateOne: {
                 filter: { _id: student._id },
@@ -122,12 +122,12 @@ const userChangeClass = async (req, res) => {
         }));
 
         // Update Ankur students to Kisholoy
-        const ankurStudent = await userModel.find({ grade: 'ankur' });
+        const ankurStudent = await userModel.find({ grade: 'Ankur' });
         const updates10 = ankurStudent.map(student => ({
             updateOne: {
                 filter: { _id: student._id },
                 update: {
-                    grade: 'kisholoy',
+                    grade: 'Kisholoy',
                     firstSem: KisholoySyllabus,
                     secondSem: KisholoySyllabus,
                     endSem: KisholoySyllabus
@@ -136,12 +136,12 @@ const userChangeClass = async (req, res) => {
         }));
 
         // Update Beez students to Ankur
-        const beezStudent = await userModel.find({ grade: 'beez' });
+        const beezStudent = await userModel.find({ grade: 'Beez' });
         const updates11 = beezStudent.map(student => ({
             updateOne: {
                 filter: { _id: student._id },
                 update: {
-                    grade: 'ankur',
+                    grade: 'Ankur',
                     firstSem: AnkurSyllabus,
                     secondSem: AnkurSyllabus,
                     endSem: AnkurSyllabus
