@@ -103,7 +103,7 @@ router.post('/userSignIn', UserModelLogin);
 router.post('/refresh-token', refreshToken);
 router.get('/userProfile',authCheck,UserProfile);
 router.put('/userEdit',authCheck,UserEdit);
-router.get('/teacherFetch', authCheck, TeacherFetch);
+router.get('/teacherFetch', TeacherFetch); // Remove authCheck to make teachers publicly accessible
 router.post('/userLogout',authCheck,logoutUser);
 router.put('/chnageYearClass', authCheck, userChangeClass);
 router.delete('/deleteUser/:userId', authCheck, deleteUser);
