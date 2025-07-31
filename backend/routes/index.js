@@ -82,9 +82,9 @@ router.post('/save-token', storeToken);
 router.post('/token-send-message', tokenMessage);
 //Alumni Routes((add authcheck later********************))
 router.post('/alumniTempSave', alumniTemp);
-router.post('/alumniVeri', alumniVeri);//anumni accept
+router.post('/alumniVeri', authCheck, alumniVeri);//anumni accept
 router.get('/alumniView', alumniView);
-router.delete('/alumniDelete', alumniDelete);//alumni deny
+router.delete('/alumniDelete', authCheck, alumniDelete);//alumni deny
 router.post('/alumniSearch',alumniSearch);
 router.get('/alumniApplicationView',alumniApplicationView);//alumni aplication view
 router.post('/alumniOtp',alumniOtp.alumniLogin);
