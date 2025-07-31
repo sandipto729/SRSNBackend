@@ -22,32 +22,26 @@
 // module.exports = userLogOut
 
 
+const AlumniModel = require('../../model/Alumni/alumniVeriModel');
+
 const userLogOut = async (req, res) => {
     try {
-        // Retrieve the token from cookies
-        const token = req.cookies?.alumnitoken;
-        console.log('Alumni token:', token);
+        const alumni = await AlumniModel.findById(req.alumniuser._id);
+        alumni.refreshToken = null;
+        await alumni.save();
 
-        // Clear the cookie with appropriate options
-        res.clearCookie('alumnitoken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite:'none',
-        });
-
-        // Send a successful response
-        res.status(200).json({
-            message: "User Logged Out",
+        res.json({ 
+            success: true, 
+            message: 'Alumni logout successful',
             error: false,
-            success: true,
             data: []
         });
     } catch (error) {
-        console.error("Error during signout:", error);
+        console.error("Error during alumni signout:", error);
         res.status(500).json({
+            success: false,
             message: "Internal Server Error",
-            error: true,
-            success: false
+            error: true
         });
     }
 };

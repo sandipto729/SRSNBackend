@@ -1,47 +1,13 @@
-// async function userLogOut(req, res) {
-//     try{
-//         res.clearCookie('token');
-//         res.json({
-//             message: "User Logged Out",
-//             error: false,
-//             success: true,
-//             data:[]
-//         })
-//     }catch (error) {
-//         console.error("Error during signout:", error);
-//         res.status(500).json({
-//             message: "Internal Server Error",
-//             error: true,
-//             success: false
-//         });
-//     }
-// }
-
-// module.exports = userLogOut
-
-
-
+const User = require('../../model/User/UserModel');
 async function userLogOut(req, res) {
     try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none' 
-        });
+        const user = await User.findById(req.user.id);
+        user.refreshToken = null;
+        await user.save();
 
-        res.json({
-            message: "User Logged Out",
-            error: false,
-            success: true,
-            data: []
-        });
+        res.json({ success: true, message: 'Logout successful' });
     } catch (error) {
-        console.error("Error during signout:", error);
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: true,
-            success: false
-        });
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 

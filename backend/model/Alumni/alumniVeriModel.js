@@ -39,6 +39,9 @@ const alumniVeriSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
+    },
+    refreshToken: {
+        type: String
     }
 }, {
     timestamps: true

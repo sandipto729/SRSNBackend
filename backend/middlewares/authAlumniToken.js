@@ -1,35 +1,37 @@
-const jwt = require('jsonwebtoken');
+const { verifyAlumniAccessToken } = require('../utilis/jwt');
+const AlumniModel = require('../model/Alumni/alumniVeriModel');
 
 async function authToken(req, res, next) {
   try {
-    const token = req.cookies?.alumnitoken || req.headers.authorization?.split(' ')[1];
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return res.status(401).json({
-        message: "No token provided",
+        message: "No alumni token provided",
         data: [],
         error: true,
         success: false,
       });
     }
 
-    jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({
-          message: "Please log in",
-          data: [],
-          error: true,
-          success: false,
-        });
-      }
+    const decoded = verifyAlumniAccessToken(token);
+    const alumni = await AlumniModel.findById(decoded.alumniId).select('-refreshToken');
+    
+    if (!alumni) {
+      return res.status(401).json({
+        message: "Alumni token is not valid",
+        data: [],
+        error: true,
+        success: false,
+      });
+    }
 
-      req.alumniuser = decoded.data; 
-      console.log('Decoded User:', req.user);
-      next();
-    });
+    req.alumniuser = alumni;
+    console.log('Decoded Alumni User:', req.alumniuser);
+    next();
   } catch (err) {
     res.status(500).json({
-      message: "An error occurred during authentication",
+      message: "An error occurred during alumni authentication",
       data: [],
       error: true,
       success: false,

@@ -1,39 +1,27 @@
 const jwt = require('jsonwebtoken');
+const UserModel = require('../model/User/UserModel');
+const { verifyAccessToken } = require('../utilis/jwt');
 
 async function authToken(req, res, next) {
   try {
-    const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
-      return res.status(401).json({
-        message: "No token provided",
-        data: [],
-        error: true,
-        success: false,
-      });
+      return res.status(401).json({ success: false, message: 'No token, authorization denied' });
     }
 
-    jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({
-          message: "Please log in",
-          data: [],
-          error: true,
-          success: false,
-        });
-      }
+    const decoded = verifyAccessToken(token);
+    const user = await UserModel.findById(decoded.userId).select('-password -refreshToken');
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Token is not valid' });
+    }
 
-      req.user = decoded.data; 
-      // console.log('Decoded User:', req.user);
-      next();
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: "An error occurred during authentication",
-      data: [],
-      error: true,
-      success: false,
-    });
+    req.user = user;
+    next();
+
+  }catch(err){
+    res.status(500).json({ success: false, message: err.message });
   }
 }
 

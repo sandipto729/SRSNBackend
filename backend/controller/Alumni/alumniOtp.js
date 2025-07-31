@@ -1,7 +1,7 @@
 const AlumniModel = require('../../model/Alumni/alumniVeriModel');
 const sendEmail = require('../../helper/Mail');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { generateAlumniAccessToken, generateAlumniRefreshToken, verifyAlumniRefreshToken } = require('../../utilis/jwt');
 const RedisClient = require('../../config/Redis'); 
 
 
@@ -52,26 +52,25 @@ const verifyOtp = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Alumni not found.' });
         }
 
-        // Generate a JWT token for the alumni
-        const tokenData = { _id: alumni._id, email: alumni.email };
-        const token = jwt.sign(
-            { data: tokenData },
-            process.env.TOKEN_SECRET_KEY,
-            { expiresIn: '3h' }
-        );
+        // Generate alumni tokens
+        const alumniAccessToken = generateAlumniAccessToken(alumni._id);
+        const alumniRefreshToken = generateAlumniRefreshToken(alumni._id);
 
-        // Configure cookie options
-        const tokenOptions = {
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production', 
-            sameSite: 'none' 
-        };
+        // Save refresh token to alumni
+        alumni.refreshToken = alumniRefreshToken;
+        await alumni.save();
 
-        // Set the cookie and return a successful response
-        res.cookie('alumnitoken', token, tokenOptions).json({
+        // Return successful response with tokens
+        res.json({
             success: true,
             message: 'Signin successful.',
-            data: token, // Optionally include the token in the response
+            Alumni: {
+                id: alumni._id,
+                name: alumni.name,
+                email: alumni.email
+            },
+            alumniAccessToken,
+            alumniRefreshToken
         });
     } catch (err) {
         console.error("Error during OTP verification:", err);
@@ -79,6 +78,39 @@ const verifyOtp = async (req, res) => {
     }
 };
 
-module.exports = verifyOtp;
+const alumniRefreshToken = async (req, res) => {
+  try {
+    const { alumniRefreshToken } = req.body;
 
-module.exports = { alumniLogin, verifyOtp };
+    if (!alumniRefreshToken) {
+      return res.status(401).json({ success: false, message: 'Alumni refresh token required' });
+    }
+
+    // Verify refresh token
+    const decoded = verifyAlumniRefreshToken(alumniRefreshToken);
+    const alumni = await AlumniModel.findById(decoded.alumniId);
+
+    if (!alumni || alumni.refreshToken !== alumniRefreshToken) {
+      return res.status(403).json({ success: false, message: 'Invalid alumni refresh token' });
+    }
+
+    // Generate new tokens
+    const newAlumniAccessToken = generateAlumniAccessToken(alumni._id);
+    const newAlumniRefreshToken = generateAlumniRefreshToken(alumni._id);
+
+    // Update refresh token in database
+    alumni.refreshToken = newAlumniRefreshToken;
+    await alumni.save();
+
+    res.json({
+      success: true,
+      message: 'Alumni tokens refreshed successfully',
+      alumniAccessToken: newAlumniAccessToken,
+      alumniRefreshToken: newAlumniRefreshToken
+    });
+  } catch (error) {
+    res.status(403).json({ success: false, message: 'Invalid alumni refresh token' });
+  }
+};
+
+module.exports = { alumniLogin, verifyOtp, alumniRefreshToken };
