@@ -29,7 +29,7 @@ const alumniGoogleLogin=require('../controller/Alumni/AlumniGoogleLogin');
 //User
 const StudentFetch = require('../controller/User/StudentFetch');
 const UserSignUp=require('../controller/User/UserSignUp');
-const UserSignIn=require('../controller/User/UserLogin');
+const { UserModelLogin, refreshToken }=require('../controller/User/UserLogin');
 const UserProfile=require('../controller/User/FetchUserProfile');
 const UserEdit=require('../controller/User/UserEdit');
 const TeacherFetch=require('../controller/User/Teacherfetch');
@@ -82,13 +82,14 @@ router.post('/save-token', storeToken);
 router.post('/token-send-message', tokenMessage);
 //Alumni Routes((add authcheck later********************))
 router.post('/alumniTempSave', alumniTemp);
-router.post('/alumniVeri', alumniVeri);//anumni accept
+router.post('/alumniVeri', authCheck, alumniVeri);//anumni accept
 router.get('/alumniView', alumniView);
-router.delete('/alumniDelete', alumniDelete);//alumni deny
+router.delete('/alumniDelete', authCheck, alumniDelete);//alumni deny
 router.post('/alumniSearch',alumniSearch);
 router.get('/alumniApplicationView',alumniApplicationView);//alumni aplication view
 router.post('/alumniOtp',alumniOtp.alumniLogin);
 router.post('/otpVerify',alumniOtp.verifyOtp);
+router.post('/alumniRefreshToken', alumniOtp.alumniRefreshToken);
 router.get('/alumniDetails',authAlumni,alumniDetails);
 router.put('/alumniUpdateProfile',authAlumni,alumniUpdateProfile);
 router.post('/alumniLogOut',authAlumni,alumniLogOut);
@@ -96,15 +97,16 @@ router.post('/alumniGoogleLogin',alumniGoogleLogin);
 
 
 //User
-router.get('/studentFetch', StudentFetch);//check auth check later *********
+router.get('/studentFetch', authCheck, StudentFetch);
 router.post('/userSignUp', UserSignUp);//check auth check later *********
-router.post('/userSignIn', UserSignIn);
+router.post('/userSignIn', UserModelLogin);
+router.post('/refresh-token', refreshToken);
 router.get('/userProfile',authCheck,UserProfile);
 router.put('/userEdit',authCheck,UserEdit);
-router.get('/teacherFetch',TeacherFetch);
+router.get('/teacherFetch', TeacherFetch); // Remove authCheck to make teachers publicly accessible
 router.post('/userLogout',authCheck,logoutUser);
-router.put('/chnageYearClass',userChangeClass);//check auth check later *********
-router.delete('/deleteUser/:userId', deleteUser);
+router.put('/chnageYearClass', authCheck, userChangeClass);
+router.delete('/deleteUser/:userId', authCheck, deleteUser);
 router.post('/forgotpasswordotpsend',ForgotPassword.userLogin);
 router.post('/forgotpasswordotpverify',ForgotPassword.verifyOtp);
 router.post('/resetpassword',ForgotPassword.resetPassword);
@@ -118,36 +120,36 @@ router.post('/message',Message);
 router.post('/userMarksSubmission',authCheck,userMarksSubmission);
 
 //get result
-router.get('/getResultPrimary',UserResult.calculateResultBeezTo4);
-router.get('/getResultHigh',UserResult.calculateResult5To8);
+router.get('/getResultPrimary', authCheck, UserResult.calculateResultBeezTo4);
+router.get('/getResultHigh', authCheck, UserResult.calculateResult5To8);
 
 //Student Admission
 router.post('/userAdmissionSignUp', UserAdmissionSignUp);
-router.get('/userAdmissionFetch', UserAdmissionFetch);
-router.post('/userAdmissionAdd', UserApplicationAdd);
-router.post('/userAdmissionAddArray', UserApplicationAddArray);
-router.delete('/userAdmissionDelete', UserApplicationDelete);
+router.get('/userAdmissionFetch', authCheck, UserAdmissionFetch);
+router.post('/userAdmissionAdd', authCheck, UserApplicationAdd);
+router.post('/userAdmissionAddArray', authCheck, UserApplicationAddArray);
+router.delete('/userAdmissionDelete', authCheck, UserApplicationDelete);
 router.post('/userAdmissionSearch',userAdmissionSearch);
-router.put('/userEditById',UserEditById);
+router.put('/userEditById', authCheck, UserEditById);
 
 
 //Notice(add auth later)
-router.post('/noticeEntery',NoticeEntery);
+router.post('/noticeEntery', authCheck, NoticeEntery);
 router.get('/noticeFetch',NoticeFetch);
-router.delete('/noticeDelete',NoticeDelete);
+router.delete('/noticeDelete', authCheck, NoticeDelete);
 
 //Event Controller
-router.post('/eventAdd',EventAdd);
+router.post('/eventAdd', authCheck, EventAdd);
 router.get('/admissionFetch',AdmissionFetch);
-router.put('/eventEdit',EventEdit);
-router.get('/marksSubmissionFetch',MarksSubmissionFetch);
+router.put('/eventEdit', authCheck, EventEdit);
+router.get('/marksSubmissionFetch', authCheck, MarksSubmissionFetch);
 router.put('/eventToggle',authCheck,EventToggle);
-router.get('/eventFetch',EventFetch);
+router.get('/eventFetch', authCheck, EventFetch);
 
 
 //Blog
-router.post('/blogAdd',BlogAdd);
+router.post('/blogAdd', authCheck, BlogAdd);
 router.get('/blogFetch',BlogFetch);
-router.delete('/blogDelete',BlogDelete);
+router.delete('/blogDelete', authCheck, BlogDelete);
 
 module.exports = router;

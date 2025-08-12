@@ -1,38 +1,79 @@
-const UserModel = require('../../model/User/UserModel');
+const UserModelModel = require('../../model/User/UserModel');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../../utilis/jwt');
 
 
-const userLogin = async (req, res) => {
+const UserModelLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await UserModel.findOne({ email: email });
-        if (!user) {
-            return res.status(400).json({ success: false, message: 'User not found' });
+        const UserModel = await UserModelModel.findOne({ email: email });
+        if (!UserModel) {
+            return res.status(400).json({ success: false, message: 'UserModel not found' });
         }
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, UserModel.password);
         if (!isMatch) {
             return res.status(400).json({ success: false, message: 'Incorrect password' });
         }
 
-        const tokenData = { _id: user._id, email: user.email };
-        const token = jwt.sign({ data: tokenData }, process.env.TOKEN_SECRET_KEY, { expiresIn: '3h' });
+        // Generate tokens
+        const accessToken = generateAccessToken(UserModel._id);
+        const refreshToken = generateRefreshToken(UserModel._id);
 
-        const tokenOptions = {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
-        };
+        // Save refresh token to UserModel
+        UserModel.refreshToken = refreshToken;
+        await UserModel.save();
 
-        res.cookie('token', token, tokenOptions).json({
-            message: "Signin successful",
-            data: token,
-            error: false,
-            success: true
+        res.json({
+            success: true,
+            message: 'Login successful',
+            UserModel: {
+                id: UserModel._id,
+                // UserModelname: UserModel.UserModelname,
+                email: UserModel.email
+            },
+            accessToken,
+            refreshToken
         });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-module.exports = userLogin;
+const refreshToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(401).json({ success: false, message: 'Refresh token required' });
+    }
+
+    // Verify refresh token
+    const decoded = verifyRefreshToken(refreshToken);
+    const UserModel = await UserModelModel.findById(decoded.userId);
+
+    if (!UserModel || UserModel.refreshToken !== refreshToken) {
+      return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+    }
+
+    // Generate new tokens
+    const newAccessToken = generateAccessToken(UserModel._id);
+    const newRefreshToken = generateRefreshToken(UserModel._id);
+
+    // Update refresh token in database
+    UserModel.refreshToken = newRefreshToken;
+    await UserModel.save();
+
+    res.json({
+      success: true,
+      message: 'Tokens refreshed successfully',
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken
+    });
+  } catch (error) {
+    res.status(403).json({ success: false, message: 'Invalid refresh token' });
+  }
+};
+
+
+module.exports = { UserModelLogin, refreshToken };
+

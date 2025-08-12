@@ -20,6 +20,9 @@ const UserSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
+    refreshToken: {
+        type: String
+    },
     DateOfJoining:{
         type: String
     },

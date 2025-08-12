@@ -1,5 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
-const jwt = require('jsonwebtoken');
+const { generateAlumniAccessToken, generateAlumniRefreshToken } = require('../../utilis/jwt');
 const AlumniModel = require('../../model/Alumni/alumniVeriModel');
 
 const AlumniGoogleLogin = async (req, res) => {
@@ -26,28 +26,27 @@ const AlumniGoogleLogin = async (req, res) => {
         console.log('Alumni : ',alumni);
 
         if (!alumni) {
-            return res.status(400).json({ success: false, message: 'User not found' });
+            return res.status(400).json({ success: false, message: 'Alumni not found' });
         }
 
-        const tokenData = { _id: alumni._id, email: alumni.email };
+        // Generate alumni tokens
+        const alumniAccessToken = generateAlumniAccessToken(alumni._id);
+        const alumniRefreshToken = generateAlumniRefreshToken(alumni._id);
 
-        const jwtToken = jwt.sign(
-            { data: tokenData },
-            process.env.TOKEN_SECRET_KEY,
-            { expiresIn: '3h' }
-        );
+        // Save refresh token to alumni
+        alumni.refreshToken = alumniRefreshToken;
+        await alumni.save();
 
-        const tokenOptions = {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
-        };
-
-        res.cookie('alumnitoken', jwtToken, tokenOptions).json({
-            message: "Signin successful",
-            data: jwtToken,
-            error: false,
-            success: true
+        res.json({
+            success: true,
+            message: "Google signin successful",
+            Alumni: {
+                id: alumni._id,
+                name: alumni.name,
+                email: alumni.email
+            },
+            alumniAccessToken,
+            alumniRefreshToken
         });
     } catch (err) {
         console.error("Error in Google Login:", err);
