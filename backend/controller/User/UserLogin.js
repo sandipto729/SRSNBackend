@@ -15,9 +15,9 @@ const UserModelLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Incorrect password' });
         }
 
-        // Generate tokens
-        const accessToken = generateAccessToken(UserModel._id);
-        const refreshToken = generateRefreshToken(UserModel._id);
+    // Generate tokens
+    const accessToken = generateAccessToken(UserModel._id);
+    const refreshToken = generateRefreshToken(UserModel._id);
 
         // Save refresh token to UserModel
         UserModel.refreshToken = refreshToken;
@@ -55,19 +55,15 @@ const refreshToken = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Invalid refresh token' });
     }
 
-    // Generate new tokens
+    // Generate new access token, keep the same refresh token (do not rotate)
+    // This avoids race conditions when multiple tabs/devices refresh simultaneously
     const newAccessToken = generateAccessToken(UserModel._id);
-    const newRefreshToken = generateRefreshToken(UserModel._id);
-
-    // Update refresh token in database
-    UserModel.refreshToken = newRefreshToken;
-    await UserModel.save();
 
     res.json({
       success: true,
       message: 'Tokens refreshed successfully',
       accessToken: newAccessToken,
-      refreshToken: newRefreshToken
+      refreshToken // return existing refresh token
     });
   } catch (error) {
     res.status(403).json({ success: false, message: 'Invalid refresh token' });

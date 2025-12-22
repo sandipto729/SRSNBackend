@@ -94,19 +94,15 @@ const alumniRefreshToken = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Invalid alumni refresh token' });
     }
 
-    // Generate new tokens
+    // Generate new access token, keep the same refresh token (do not rotate)
+    // This avoids race conditions when multiple tabs/devices refresh simultaneously
     const newAlumniAccessToken = generateAlumniAccessToken(alumni._id);
-    const newAlumniRefreshToken = generateAlumniRefreshToken(alumni._id);
-
-    // Update refresh token in database
-    alumni.refreshToken = newAlumniRefreshToken;
-    await alumni.save();
 
     res.json({
       success: true,
       message: 'Alumni tokens refreshed successfully',
       alumniAccessToken: newAlumniAccessToken,
-      alumniRefreshToken: newAlumniRefreshToken
+      alumniRefreshToken // return existing refresh token
     });
   } catch (error) {
     res.status(403).json({ success: false, message: 'Invalid alumni refresh token' });
