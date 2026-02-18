@@ -9,6 +9,9 @@ const authAlumni=require('./../middlewares/authAlumniToken');
 const checkAdmin=require('../middlewares/CheckAdmin');
 const checkTeacher=require('../middlewares/CheckTeacher');
 
+//Turnstile CAPTCHA Middleware
+const verifyTurnstile=require('../middlewares/verifyTurnstile');
+
 //Token Store
 const storeToken=require('./../controller/TokenStore/store_token');
 const tokenMessage=require('./../controller/TokenStore/send_message');
@@ -56,7 +59,8 @@ const NoticeEntery = require('../controller/Notice/NoticeEntery');
 const NoticeFetch = require('../controller/Notice/Noticefetch');
 const NoticeDelete=require('../controller/Notice/NoticeDelete');
 
-//Event Controller
+// Result Generation Route
+const resultRoute = require('./result');
 const EventAdd = require('../controller/EventControl/General/EventAdd');
 const AdmissionFetch=require('../controller/EventControl/Admission/AdmissionFetch');
 const EventEdit=require('../controller/EventControl/General/EventEdit');
@@ -98,8 +102,8 @@ router.post('/alumniGoogleLogin',alumniGoogleLogin);
 
 //User
 router.get('/studentFetch', authCheck, StudentFetch);
-router.post('/userSignUp', UserSignUp);//check auth check later *********
-router.post('/userSignIn', UserModelLogin);
+router.post('/userSignUp', verifyTurnstile, UserSignUp);//check auth check later *********
+router.post('/userSignIn', verifyTurnstile, UserModelLogin);
 router.post('/refresh-token', refreshToken);
 router.get('/userProfile',authCheck,UserProfile);
 router.put('/userEdit',authCheck,UserEdit);
@@ -114,7 +118,7 @@ router.post('/userGoogleLogin',UserGoogleLogin);
 
 
 //Message
-router.post('/message',Message);
+router.post('/message', verifyTurnstile, Message);
 
 //Marks Submission
 router.post('/userMarksSubmission',authCheck,userMarksSubmission);
@@ -152,4 +156,5 @@ router.post('/blogAdd', authCheck, BlogAdd);
 router.get('/blogFetch',BlogFetch);
 router.delete('/blogDelete', authCheck, BlogDelete);
 
+// router.use('/result', resultRoute);
 module.exports = router;
