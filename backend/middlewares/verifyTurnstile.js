@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const verifyTurnstile = async (req, res, next) => {
   const token = req.body.turnstileToken;
 
@@ -9,18 +11,18 @@ const verifyTurnstile = async (req, res, next) => {
   }
 
   try {
-    const response = await fetch(
+    const { data } = await axios.post(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      new URLSearchParams({
+        secret: process.env.SiteSecretKey,
+        response: token,
+      }).toString(),
       {
-        method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `secret=${process.env.SiteSecretKey}&response=${token}`,
       }
     );
-
-    const data = await response.json();
 
     if (data.success) {
       next();
