@@ -2,6 +2,13 @@ const DEFAULT_EXPIRATION = 60 * 2;
 const alumniVeriModel = require('../../model/Alumni/alumniVeriModel');
 const RedisClient = require('../../config/Redis');
 
+// Fields that should never be exposed in the public alumni list
+const SENSITIVE_FIELDS = ['mobileNumber', 'email', 'refreshToken'];
+
+const stripSensitiveFields = (alumniArray) => {
+    return alumniArray.map(({ mobileNumber, email, refreshToken, ...safe }) => safe);
+};
+
 const alumniView = async (req, res) => {
     try {
         const catchedAlumni = await RedisClient.get('alumnis');
@@ -15,11 +22,12 @@ const alumniView = async (req, res) => {
             }
             // console.log('Using Redis cache Alumni Get', parsedData);
             
-            return res.status(200).json({ success: true, alumni: parsedData });
+            return res.status(200).json({ success: true, alumni: stripSensitiveFields(parsedData) });
         }
 
         // Fetch data from MongoDB if not in Redis cache
-        const alumni = await alumniVeriModel.find();
+        // Exclude sensitive fields at the database query level
+        const alumni = await alumniVeriModel.find().select(SENSITIVE_FIELDS.map(f => `-${f}`).join(' '));
         if (!Array.isArray(alumni)) {
             console.error('MongoDB query did not return an array');
             return res.status(500).json({ success: false, error: 'Database query failed' });
