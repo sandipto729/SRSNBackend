@@ -1,8 +1,8 @@
-import User from "../../model/User/UserModel.js";
-import Alumni from "../../model/User/Alumni.js";
-import StudentAcademic from "../../model/User/UserAcademics.js";
+const User = require("../../model/User/UserModel");
+const Alumni = require("../../model/User/Alumni");
+const StudentAcademic = require("../../model/User/UserAcademics");
 
-export async function generateAcademicRecords(academicYear) {
+async function generateAcademicRecords(academicYear) {
   const students = await User.find({ role: "Student" });
 
   let alumniCreated = 0;
@@ -70,3 +70,5 @@ export async function generateAcademicRecords(academicYear) {
     academicCreated
   };
 }
+
+module.exports = { generateAcademicRecords };
