@@ -77,6 +77,11 @@ const BlogAdd = require('./../controller/Blog/BlogCreate');
 const BlogFetch = require('./../controller/Blog/Blogfetch');
 const BlogDelete=require('./../controller/Blog/BlogDelete');
 
+const multer = require('multer');
+const idcardController = require('../controller/IdCard/idcardController');
+const idcardImageProxy = require('../controller/IdCard/imageProxy');
+const idcardUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
+
 
 
 
@@ -155,6 +160,15 @@ router.get('/eventFetch', authCheck, EventFetch);
 router.post('/blogAdd', authCheck, BlogAdd);
 router.get('/blogFetch',BlogFetch);
 router.delete('/blogDelete', authCheck, BlogDelete);
+router.get('/idcard/templates', authCheck, checkAdmin, idcardController.listTemplates);
+router.get('/idcard/image-proxy', idcardImageProxy);
+router.post('/idcard/templates', authCheck, checkAdmin, idcardController.saveTemplate);
+router.delete('/idcard/templates/:templateId', authCheck, checkAdmin, idcardController.deleteTemplate);
+router.post('/idcard/upload', authCheck, checkAdmin, idcardUpload.single('file'), idcardController.uploadWorkbook);
+router.get('/idcard/batches/:batchId', authCheck, checkAdmin, idcardController.batchStatus);
+router.get('/idcard/batches/:batchId/detail', authCheck, checkAdmin, idcardController.batchDetail);
+router.get('/idcard/batches', authCheck, checkAdmin, idcardController.listBatches);
+router.post('/idcard/batches/:batchId/regenerate', authCheck, checkAdmin, idcardController.regenerateBatch);
 
 // router.use('/result', resultRoute);
 module.exports = router;

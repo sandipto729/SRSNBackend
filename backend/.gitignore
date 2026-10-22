@@ -6,3 +6,6 @@ docker-compose.yml
 .dockerignore
 
 serviceAccountKey.json
+
+# Generated ID card PDFs
+public/idcards/*.pdf
