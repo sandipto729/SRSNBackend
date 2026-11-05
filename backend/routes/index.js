@@ -169,6 +169,10 @@ router.get('/idcard/batches/:batchId', authCheck, checkAdmin, idcardController.b
 router.get('/idcard/batches/:batchId/detail', authCheck, checkAdmin, idcardController.batchDetail);
 router.get('/idcard/batches', authCheck, checkAdmin, idcardController.listBatches);
 router.post('/idcard/batches/:batchId/regenerate', authCheck, checkAdmin, idcardController.regenerateBatch);
+// Public ID Card Verification - no authentication required
+router.get('/idcard/verify/:identifier', idcardController.verifyStudent);
+router.get('/idcard/verify', idcardController.verifyStudent);
+
 
 // router.use('/result', resultRoute);
 module.exports = router;

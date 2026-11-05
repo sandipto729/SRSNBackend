@@ -133,7 +133,19 @@ app.use('/api', userRoutes);
 
 SocketHandler(io); 
 
+// Start ID card queue worker automatically (runs in background alongside the server)
+try {
+  const { startIdcardWorker } = require('./service/idcardQueue');
+  const worker = startIdcardWorker();
+  worker.on('failed', (job, error) => console.error(`ID card job ${job?.id} failed:`, error.message));
+  worker.on('error', error => console.error('ID card worker error:', error.message));
+  console.log('ID card queue worker started automatically');
+} catch (error) {
+  console.warn('ID card queue worker could not be started:', error.message);
+}
+
 // Connect to Server
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+

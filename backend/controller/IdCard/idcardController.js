@@ -52,17 +52,52 @@ async function uploadWorkbook(req, res) {
   } catch (error) { res.status(500).json({ success: false, message: error.message }); }
 }
 
+async function checkAndAutoFinalizeBatch(batchId, ownerId) {
+  try {
+    const batch = await IdcardBatch.findOne({ _id: batchId, owner: ownerId });
+    if (!batch || batch.status === 'completed') return batch;
+    const pending = await IdcardData.countDocuments({ batch: batchId, generationStatus: { $in: ['pending', 'processing'] } });
+    if (pending === 0 && batch.total > 0) {
+      const generated = await IdcardData.countDocuments({ batch: batchId, generationStatus: 'generated' });
+      const failed = await IdcardData.countDocuments({ batch: batchId, generationStatus: 'failed' });
+      if (generated + failed >= batch.total) {
+        const rows = await IdcardData.find({ batch: batchId, generationStatus: 'generated' }).sort({ rowNumber: 1 }).lean();
+        const template = await IdcardTemplate.findById(batch.template).lean();
+        const outputPath = path.join(__dirname, '..', '..', 'public', 'idcards', `${batchId}.pdf`);
+        const { createIdcardPdf } = require('../../helper/idcardPdf');
+        await createIdcardPdf({ batchId, rows, template, outputPath });
+        batch.status = failed ? 'failed' : 'completed';
+        batch.generated = generated;
+        batch.failed = failed;
+        batch.pdfPath = `/idcards/${batchId}.pdf`;
+        await batch.save();
+      }
+    }
+    return batch;
+  } catch (err) {
+    console.warn('Auto-finalize batch error:', err.message);
+  }
+}
+
 async function batchStatus(req, res) {
-  const batch = await IdcardBatch.findOne({ _id: req.params.batchId, owner: req.user._id }).lean();
+  let batch = await IdcardBatch.findOne({ _id: req.params.batchId, owner: req.user._id }).lean();
   if (!batch) return res.status(404).json({ success: false, message: 'Batch not found' });
+  if (batch.status === 'processing' && batch.generated >= batch.total && batch.total > 0) {
+    const healed = await checkAndAutoFinalizeBatch(batch._id, req.user._id);
+    if (healed) batch = healed.toObject ? healed.toObject() : healed;
+  }
   res.json({ success: true, batch });
 }
 
 async function batchDetail(req, res) {
-  const batch = await IdcardBatch.findOne({ _id: req.params.batchId, owner: req.user._id })
+  let batch = await IdcardBatch.findOne({ _id: req.params.batchId, owner: req.user._id })
     .populate('template')
     .lean();
   if (!batch) return res.status(404).json({ success: false, message: 'Batch not found' });
+  if (batch.status === 'processing' && batch.generated >= batch.total && batch.total > 0) {
+    const healed = await checkAndAutoFinalizeBatch(batch._id, req.user._id);
+    if (healed) batch = await IdcardBatch.findOne({ _id: req.params.batchId, owner: req.user._id }).populate('template').lean();
+  }
   const students = await IdcardData.find({ batch: batch._id })
     .select('-owner -batch -__v')
     .sort({ rowNumber: 1 })
@@ -96,4 +131,68 @@ async function regenerateBatch(req, res) {
   } catch (error) { res.status(500).json({ success: false, message: error.message }); }
 }
 
-module.exports = { saveTemplate, listTemplates, deleteTemplate, uploadWorkbook, batchStatus, batchDetail, listBatches, regenerateBatch };
+async function verifyStudent(req, res) {
+  try {
+    const rawId = (req.params.identifier || req.query.id || req.query.pen || '').trim();
+    if (!rawId) {
+      return res.status(400).json({ success: false, message: 'Student PEN Number or Verification ID is required.' });
+    }
+
+    const mongoose = require('mongoose');
+    let query;
+    if (mongoose.Types.ObjectId.isValid(rawId)) {
+      query = { _id: rawId };
+    } else {
+      const escaped = rawId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      query = { penNo: { $regex: new RegExp(`^${escaped}$`, 'i') } };
+    }
+
+    const record = await IdcardData.findOne(query)
+      .sort({ createdAt: -1 })
+      .populate({
+        path: 'batch',
+        populate: { path: 'template' }
+      })
+      .lean();
+
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: `No verified ID card record found for "${rawId}". Please verify the PEN Number or contact school administration.`
+      });
+    }
+
+    const template = record.batch?.template || {};
+
+    return res.json({
+      success: true,
+      verified: true,
+      verifiedBy: 'srsnrng.in',
+      verifiedAt: record.generatedAt || record.createdAt,
+      student: {
+        id: record._id,
+        name: record.name || 'Student',
+        className: record.className || '',
+        penNo: record.penNo || '',
+        rollNo: record.rollNo || '',
+        fatherName: record.fatherName || '',
+        motherName: record.motherName || '',
+        dob: record.dob || '',
+        contact: record.contact || '',
+        address: record.address || '',
+        photo: record.photo || '',
+        session: template.session || '',
+        section: template.section || '',
+        schoolName: template.schoolName || 'Sri Ramakrishna Siksha Niketan',
+        classPrefix: template.classPrefix || 'CLASS -',
+        headLabel: template.headLabel || 'Head Master',
+        footerText: template.footerText || 'Please carry this card whenever you visit the School.',
+        generatedAt: record.generatedAt || record.createdAt
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+module.exports = { saveTemplate, listTemplates, deleteTemplate, uploadWorkbook, batchStatus, batchDetail, listBatches, regenerateBatch, verifyStudent };

@@ -23,5 +23,22 @@ RedisClient.on('error', (err) => console.error('Redis error:', err));
         console.error('Failed to connect to Redis:', err);
     }
 })();
+const IORedis = require('ioredis');
+
+// IORedis connection for BullMQ and queue services
+const redisConnection = new IORedis({
+    host: process.env.REDIS_HOST,
+    port: Number(process.env.REDIS_PORT || 6379),
+    password: process.env.REDIS_PASSWORD || undefined,
+    maxRetriesPerRequest: null,
+});
+
+redisConnection.on('error', (err) => console.error('IORedis error:', err));
+
+RedisClient.redisConnection = redisConnection;
+RedisClient.ioRedis = redisConnection;
 
 module.exports = RedisClient;
+module.exports.redisConnection = redisConnection;
+module.exports.ioRedis = redisConnection;
+module.exports.RedisClient = RedisClient;
