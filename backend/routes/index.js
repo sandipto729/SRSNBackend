@@ -43,6 +43,7 @@ const userChangeClass = require('./../controller/User/UserChangeClass');
 const UserResult=require('./../controller/User/CalculateResult');
 const ForgotPassword=require('./../controller/User/ForgotPassword');
 const UserGoogleLogin=require('./../controller/User/UserGoogleLogin');
+const StudentIdCard = require('../controller/User/StudentIdCard');
 
 
 
@@ -120,6 +121,7 @@ router.post('/forgotpasswordotpsend',ForgotPassword.userLogin);
 router.post('/forgotpasswordotpverify',ForgotPassword.verifyOtp);
 router.post('/resetpassword',ForgotPassword.resetPassword);
 router.post('/userGoogleLogin',UserGoogleLogin);
+router.post('/generateIdCards', authCheck, StudentIdCard);
 
 
 //Message
